@@ -25,7 +25,7 @@ using namespace mk;
 void load()
 {
 	//ServiceLocator::GetSoundSystem().Play("MainMenuMusic.mp3", 0.7f);
-	SceneManager::GetInstance().LoadScene("Tron", &LoadMainGame);
+	SceneManager::GetInstance().LoadScene("DndCombatVisualiser", &LoadMainGame);
 }
 
 

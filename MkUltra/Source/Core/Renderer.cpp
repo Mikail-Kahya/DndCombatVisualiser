@@ -126,23 +126,33 @@ void Renderer::RenderLine(int x1, int y1, int x2, int y2, const Color& color) co
 	SDL_SetRenderDrawColor(m_Renderer, temp.r, temp.g, temp.b, temp.a);
 }
 
-void Renderer::RenderShape(const std::vector<std::pair<int, int>>& points, const Color& color) const
+void Renderer::RenderShape(const std::vector<glm::vec2>& points, const Color& color) const
 {
+	Color temp{};
+	SDL_GetRenderDrawColor(m_Renderer, &temp.r, &temp.g, &temp.b, &temp.a);
 
+	// Transform to sdl points
+	std::vector<SDL_FPoint> sdlPoints(points.size());
+	for (size_t idx{}; idx < sdlPoints.size(); ++idx)
+		sdlPoints[idx] = { points[idx].x, points[idx].y };
+
+	SDL_SetRenderDrawColor(m_Renderer, color.r, color.g, color.b, color.a);
+	SDL_RenderDrawLinesF(m_Renderer, sdlPoints.data(), static_cast<int32_t>(sdlPoints.size()));
+
+	// Reset
+	SDL_SetRenderDrawColor(m_Renderer, temp.r, temp.g, temp.b, temp.a);
+}
+
+void Renderer::RenderPoint(const glm::vec2& point, const Color& color) const
+{
 	Color temp{};
 	SDL_GetRenderDrawColor(m_Renderer, &temp.r, &temp.g, &temp.b, &temp.a);
 
 	SDL_SetRenderDrawColor(m_Renderer, color.r, color.g, color.b, color.a);
+	SDL_RenderDrawPointF(m_Renderer, point.x, point.y);
 
-	std::vector<SDL_Point> sdlPoints(points.size());
-	for (size_t idx{}; idx < sdlPoints.size(); ++idx)
-		sdlPoints[idx] = { points[idx].first, points[idx].second };
-
-	SDL_RenderDrawLines(m_Renderer, sdlPoints.data(), static_cast<int32_t>(sdlPoints.size()));
-
-	// Reset color
+	// Reset
 	SDL_SetRenderDrawColor(m_Renderer, temp.r, temp.g, temp.b, temp.a);
-
 }
 
 float Renderer::GetNextDepth()

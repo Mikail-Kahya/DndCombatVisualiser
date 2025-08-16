@@ -24,7 +24,8 @@ namespace mk
 
 		void RenderRect(int x, int y, int width, int height, const Color& color) const;
 		void RenderLine(int x1, int y1, int x2, int y2, const Color& color) const;
-		void RenderShape(const std::vector<std::pair<int, int>>& points, const Color& color) const;
+		void RenderShape(const std::vector<glm::vec2>& points, const Color& color) const;
+		void RenderPoint(const glm::vec2& point, const Color& color) const;
 
 		float GetNextDepth();
 		SDL_Renderer* GetSDLRenderer() const;

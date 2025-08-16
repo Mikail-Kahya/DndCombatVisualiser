@@ -21,6 +21,8 @@
 #include "Components/Character/HealthComponent.h"
 #include "Components/FPSComponent.h"
 
+#include "ShapeComponent.h"
+
 #include "Input/PlayerCommand.h"
 
 
@@ -80,6 +82,13 @@ void mk::LoadMainGame(Scene& scene)
 	auto fpsComponent = fps->AddComponent<FPSComponent>();
 	fpsComponent->SetUpdateDelay(0.5f);
 
+
+	GameObject* shapePtr{ scene.SpawnObject("Shape") };
+	auto shapeComponentPtr{ shapePtr->AddComponent<ShapeComponent>() };
+	shapeComponentPtr->AddPoint({ 100, 100 });
+	shapeComponentPtr->AddPoint({150, 150});
+	shapeComponentPtr->AddPoint({ 200, 100 });
+	shapeComponentPtr->SetColor({ 200, 0, 0, 255 });
 }
 
 void LoadHud(Scene& scene, const std::vector<GameObject*>& players)

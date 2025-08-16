@@ -9,7 +9,7 @@ namespace mk
 {
 	class Texture2D;
 
-	class RenderComponent final : public IComponent
+	class RenderComponent : public IComponent
 	{
 	public:
 		RenderComponent(Texture2D* texturePtr);

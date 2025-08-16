@@ -5,6 +5,7 @@
 #include "Renderer.h"
 
 #include "RenderComponent.h"
+#include "ShapeComponent.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
 #include "GUI.h"
@@ -72,7 +73,12 @@ void Renderer::Render() const
 	for (RenderComponent* renderComponentPtr : m_Renderers)
 	{
 		if (renderComponentPtr->GetTexture() == nullptr)
+		{
+			auto shapeCompPtr{ dynamic_cast<ShapeComponent*>(renderComponentPtr) };
+			if (shapeCompPtr)
+				shapeCompPtr->Render();
 			continue;
+		}
 		RenderTexture(renderComponentPtr);
 	}
 

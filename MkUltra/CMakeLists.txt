@@ -36,6 +36,7 @@ add_library(${ENGINE_NAME} STATIC
   "Source/Components/IComponent.cpp"
   "Source/Components/TextComponent.cpp"
   "Source/Components/RenderComponent.cpp"
+  "Source/Components/ShapeComponent.cpp"
   
   "Source/Components/BoxColliderComponent.cpp"
   "Source/Components/StateComponent.cpp"

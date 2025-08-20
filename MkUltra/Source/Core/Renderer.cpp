@@ -4,11 +4,12 @@
 
 #include "Renderer.h"
 
-#include "RenderComponent.h"
+#include "SpriteComponent.h"
 #include "ShapeComponent.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
 #include "GUI.h"
+#include "IRenderer.h"
 #include "PhysicsSystem.h"
 
 using namespace mk;
@@ -56,9 +57,9 @@ void Renderer::Update()
 	if (!m_DepthChanged)
 		return;
 
-	m_Renderers.sort([](RenderComponent* a, RenderComponent* b)
+	m_Renderers.sort([](const IRenderer* a, const IRenderer* b)
 		{
-			return a->GetRenderDepth() < b->GetRenderDepth();
+			return a->GetDepth() < b->GetDepth();
 		});
 
 	m_DepthChanged = false;
@@ -70,17 +71,8 @@ void Renderer::Render() const
 	SDL_SetRenderDrawColor(m_Renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_Renderer);
 
-	for (RenderComponent* renderComponentPtr : m_Renderers)
-	{
-		if (renderComponentPtr->GetTexture() == nullptr)
-		{
-			auto shapeCompPtr{ dynamic_cast<ShapeComponent*>(renderComponentPtr) };
-			if (shapeCompPtr)
-				shapeCompPtr->Render();
-			continue;
-		}
-		RenderTexture(renderComponentPtr);
-	}
+	for (IRenderer* rendererPtr : m_Renderers)
+		rendererPtr->Render();
 
 	GUI::GetInstance().Render();
 
@@ -181,34 +173,34 @@ int Renderer::GetWidth() const noexcept
 	return m_Width;
 }
 
-void Renderer::RegisterRenderComponent(RenderComponent* renderComponentPtr)
+void Renderer::RegisterRenderer(IRenderer* rendererPtr)
 {
-	const auto foundIt = std::ranges::find(m_Renderers, renderComponentPtr);
+	const auto foundIt = std::ranges::find(m_Renderers, rendererPtr);
 	if (foundIt != m_Renderers.end())
 		return;
 
 	// place in right order to avoid full resort
-	const float newDepth{ renderComponentPtr->GetRenderDepth() };
+	const float newDepth{ rendererPtr->GetDepth() };
 
 	const auto lowerBoundIt = std::ranges::find_if(m_Renderers,
-		[newDepth](const RenderComponent* a)
+		[newDepth](const IRenderer* a)
 		{
-			const float aDepth{ a->GetRenderDepth() };
+			const float aDepth{ a->GetDepth() };
 			return aDepth < newDepth;
 		});
 	
 
 	if (lowerBoundIt == m_Renderers.end())
-		m_Renderers.push_front(renderComponentPtr);
+		m_Renderers.push_front(rendererPtr);
 	else if (lowerBoundIt == m_Renderers.begin())
-		m_Renderers.push_back(renderComponentPtr);
+		m_Renderers.push_back(rendererPtr);
 	else
-		m_Renderers.insert(std::prev(lowerBoundIt), renderComponentPtr);
+		m_Renderers.insert(std::prev(lowerBoundIt), rendererPtr);
 }
 
-void Renderer::UnregisterRenderComponent(RenderComponent* renderComponentPtr)
+void Renderer::DeregisterRenderer(IRenderer* rendererPtr)
 {
-	std::erase(m_Renderers, renderComponentPtr);
+	std::erase(m_Renderers, rendererPtr);
 }
 
 void Renderer::FlagDepthDirty()
@@ -216,31 +208,28 @@ void Renderer::FlagDepthDirty()
 	m_DepthChanged = true;
 }
 
-void Renderer::RenderTexture(const RenderComponent* renderComponentPtr) const
+void Renderer::RenderTexture(	const Texture2D& texture, int width, int height, 
+								const glm::vec2& pos, const glm::vec2& anchor, float angle, 
+								const glm::vec2& srcPos, int srcWidth, int srcHeight, 
+								bool flipX, bool flipY) const
 {
-	const Texture2D& texture{ *renderComponentPtr->GetTexture() };
-	const int width{ static_cast<int>(renderComponentPtr->GetWidth()) };
-	const int height{ static_cast<int>(renderComponentPtr->GetHeight()) };
-	const glm::vec2& anchor{ renderComponentPtr->GetAnchor() };
-	const glm::vec2 position{ renderComponentPtr->GetRenderPosition() };
+	if (!texture.GetSDLTexture())
+		return;
+
 	const SDL_Rect dstRect{
-		static_cast<int>(position.x),
-		m_Height - static_cast<int>(position.y) - height, // flip Y to be at the bottom
+		static_cast<int>(pos.x),
+		m_Height - static_cast<int>(pos.y) - height, // flip Y to be at the bottom
 		width,
 		height
 	};
 
-	const glm::vec2& srcPos{ renderComponentPtr->GetSrcPosition() };
-	const glm::vec2& srcSize{ renderComponentPtr->GetSrcSize() };
+
 	const SDL_Rect srcRect{
 		static_cast<int>(srcPos.x),
 		static_cast<int>(srcPos.y),
-		static_cast<int>(srcSize.x),
-		static_cast<int>(srcSize.y)
+		srcWidth, srcHeight
 	};
 
-	const float angle{ -renderComponentPtr->GetOwner()->GetRotation() };
-	const auto flipAxis{ renderComponentPtr->IsFlipped() };
 
 	const SDL_Point pivot{
 		static_cast<int>(dstRect.w * anchor.x),
@@ -248,13 +237,14 @@ void Renderer::RenderTexture(const RenderComponent* renderComponentPtr) const
 	};
 
 	SDL_RendererFlip flip{};
-	if (flipAxis.first)
+	if (flipX)
 		flip = SDL_FLIP_HORIZONTAL;
-	if (flipAxis.second)
+	if (flipY)
 		flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
 
 	SDL_RenderCopyEx(m_Renderer, texture.GetSDLTexture(), &srcRect, &dstRect, angle, &pivot, flip);
 }
+
 
 SDL_Rect Renderer::GetDstRect(const Texture2D& texture, float x, float y) const
 {

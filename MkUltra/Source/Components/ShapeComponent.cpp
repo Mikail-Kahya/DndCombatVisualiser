@@ -10,13 +10,11 @@
 using namespace mk;
 
 ShapeComponent::ShapeComponent()
-	: RenderComponent(nullptr)
 {
 }
 
 ShapeComponent::ShapeComponent(const std::vector<Point>& points)
-	: RenderComponent(nullptr)
-	, m_Points{ points }
+	: m_Points{ points }
 {
 	CalculateBounds();
 }

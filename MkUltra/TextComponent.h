@@ -8,7 +8,7 @@
 
 namespace mk
 {
-	class RenderComponent;
+	class SpriteComponent;
 	class Texture2D;
 	class Font;
 	
@@ -38,6 +38,6 @@ namespace mk
 		Color m_Color{};
 		std::unique_ptr<Texture2D> m_Texture{};
 		Font* m_FontPtr{};
-		RenderComponent* m_RendererPtr{};
+		SpriteComponent* m_RendererPtr{};
 	};
 }

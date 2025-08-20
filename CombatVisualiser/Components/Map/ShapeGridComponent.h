@@ -1,4 +1,7 @@
 #pragma once
+#include <cstdint>
+#include <vector>
+
 #include "IComponent.h"
 
 namespace mk
@@ -9,11 +12,9 @@ namespace mk
 		ShapeGridComponent() = default;
 		~ShapeGridComponent() override = default;
 
-		ShapeGridComponent(const ShapeGridComponent& other) = delete;
-		ShapeGridComponent(ShapeGridComponent&& other) = delete;
-		ShapeGridComponent& operator=(const ShapeGridComponent& other) = delete;
-		ShapeGridComponent& operator=(ShapeGridComponent&& other) = delete;
-
-	private:
+		ShapeGridComponent(const ShapeGridComponent& other)					= delete;
+		ShapeGridComponent(ShapeGridComponent&& other) noexcept				= delete;
+		ShapeGridComponent& operator=(const ShapeGridComponent& other)		= delete;
+		ShapeGridComponent& operator=(ShapeGridComponent&& other) noexcept	= delete;
 	};
 }

@@ -6,9 +6,11 @@
 #include "ISingleton.h"
 #include "Texture2D.h"
 
+
 namespace mk
 {
-	class RenderComponent;
+	class IRenderer;
+	class SpriteComponent;
 
 	/**
 	 * Simple RAII wrapper for the SDL renderer
@@ -26,6 +28,11 @@ namespace mk
 		void RenderLine(int x1, int y1, int x2, int y2, const Color& color) const;
 		void RenderShape(const std::vector<glm::vec2>& points, const Color& color) const;
 		void RenderPoint(const glm::vec2& point, const Color& color) const;
+		void RenderTexture(const SpriteComponent* renderComponentPtr) const;
+		void RenderTexture(	const Texture2D& texture, int width, int height,
+							const glm::vec2& pos, const glm::vec2& anchor, float angle,
+							const glm::vec2& srcPos, int srcWidth, int srcHeight,
+							bool flipX, bool flipY) const;
 
 		float GetNextDepth();
 		SDL_Renderer* GetSDLRenderer() const;
@@ -35,17 +42,16 @@ namespace mk
 		const SDL_Color& GetBackgroundColor() const { return m_ClearColor; }
 		void SetBackgroundColor(const SDL_Color& color) { m_ClearColor = color; }
 
-		void RegisterRenderComponent(RenderComponent* renderComponentPtr);
-		void UnregisterRenderComponent(RenderComponent* renderComponentPtr);
+		void RegisterRenderer(IRenderer* rendererPtr);
+		void DeregisterRenderer(IRenderer* rendererPtr);
 		void FlagDepthDirty();
 
 	private:
 		Renderer() = default;
-		void RenderTexture(const RenderComponent* renderComponentPtr) const;
 		SDL_Rect GetDstRect(const Texture2D& texture, float x, float y) const;
 
 		// Sorts by float. Whenever the float changes
-		std::list<RenderComponent*> m_Renderers{};
+		std::list<IRenderer*> m_Renderers{};
 
 		SDL_Renderer* m_Renderer{};
 		SDL_Window* m_Window{};

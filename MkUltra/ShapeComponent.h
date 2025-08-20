@@ -2,12 +2,12 @@
 #include <cstdint>
 #include <vector>
 
-#include "RenderComponent.h"
+#include "SpriteComponent.h"
 #include "Texture2D.h"
 
 namespace mk
 {
-	class ShapeComponent : public RenderComponent
+	class ShapeComponent : public IComponent, public IRenderer
 	{
 		using Point = glm::vec2;
 	public:
@@ -20,7 +20,7 @@ namespace mk
 		ShapeComponent& operator=(const ShapeComponent& other) = delete;
 		ShapeComponent& operator=(ShapeComponent&& other) = delete;
 
-		void Render() const;
+		void Render() const override;
 
 		const std::vector<Point>& GetPoints() const;
 		const std::pair<Point, Point>& GetBounds() const;

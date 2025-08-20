@@ -12,7 +12,7 @@
 #include "InputManager.h"
 
 #include "TextComponent.h"
-#include "RenderComponent.h"
+#include "SpriteComponent.h"
 #include "BoxColliderComponent.h"
 #include "StateComponent.h"
 
@@ -57,7 +57,7 @@ GameObject* LoadButton(Scene& scene, const std::string& buttonText, const glm::v
 {
 	GameObject* buttonPtr{ scene.SpawnObject("Button") };
 	buttonPtr->SetLocalPosition(pos);
-	RenderComponent* bgCompPtr{ buttonPtr->AddComponent<RenderComponent>("Button.png") };
+	SpriteComponent* bgCompPtr{ buttonPtr->AddComponent<SpriteComponent>("Button.png") };
 	bgCompPtr->SetAnchor(glm::vec2{ 0.5f });
 	bgCompPtr->SetWidth(width);
 	bgCompPtr->SetHeight(height);

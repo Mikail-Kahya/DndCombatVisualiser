@@ -35,7 +35,7 @@ add_library(${ENGINE_NAME} STATIC
 
   "Source/Components/IComponent.cpp"
   "Source/Components/TextComponent.cpp"
-  "Source/Components/RenderComponent.cpp"
+  "Source/Components/SpriteComponent.cpp"
   "Source/Components/ShapeComponent.cpp"
   
   "Source/Components/BoxColliderComponent.cpp"
@@ -59,7 +59,7 @@ add_library(${ENGINE_NAME} STATIC
   "ISoundSystem.h"
   "NullSoundSystem.h"
   "Source/Sound/DefaultSoundSystem.cpp"
-   )
+    "IRenderer.h" "Source/Core/IRenderer.cpp")
 
 # enable c++20 features
 target_compile_features(${ENGINE_NAME} PUBLIC cxx_std_20)

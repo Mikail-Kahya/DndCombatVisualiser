@@ -3,26 +3,25 @@
 #include <string_view>
 
 #include "IComponent.h"
+#include "IRenderer.h"
 #include "Transform.h"
 
 namespace mk
 {
 	class Texture2D;
 
-	class RenderComponent : public IComponent
+	class SpriteComponent : public IComponent, public IRenderer
 	{
 	public:
-		RenderComponent(Texture2D* texturePtr);
-		RenderComponent(const std::string& file);
-		~RenderComponent() override;
+		SpriteComponent(Texture2D* texturePtr);
+		SpriteComponent(const std::string& file);
 
-		RenderComponent(const RenderComponent& other)				= delete;
-		RenderComponent(RenderComponent&& other)					= delete;
-		RenderComponent& operator=(const RenderComponent& other)	= delete;
-		RenderComponent& operator=(RenderComponent&& other)			= delete;
+		SpriteComponent(const SpriteComponent& other)				= delete;
+		SpriteComponent(SpriteComponent&& other)					= delete;
+		SpriteComponent& operator=(const SpriteComponent& other)	= delete;
+		SpriteComponent& operator=(SpriteComponent&& other)			= delete;
 
-		void Start() override;
-
+		void Render() const override;
 		void LateUpdate() override;
 
 		Texture2D* GetTexture() const;

@@ -3,7 +3,7 @@
 
 namespace mk
 {
-	class RenderComponent;
+	class SpriteComponent;
 
 	class StartState : public GameObjectState
 	{
@@ -22,7 +22,7 @@ namespace mk
 		std::string TransitionState() override;
 
 	private:
-		RenderComponent* m_RenderCompPtr{};
+		SpriteComponent* m_RenderCompPtr{};
 	};
 
 	class VersusState : public GameObjectState
@@ -41,6 +41,6 @@ namespace mk
 		std::string TransitionState() override;
 
 	private:
-		RenderComponent* m_RenderCompPtr{};
+		SpriteComponent* m_RenderCompPtr{};
 	};
 }

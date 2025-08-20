@@ -1,13 +1,13 @@
 #include "MenuStates.h"
 
 #include "GameObject.h"
-#include "RenderComponent.h"
+#include "SpriteComponent.h"
 #include "ResourceManager.h"
 
 using namespace mk;
 
 StartState::StartState(GameObject* startButton)
-	: m_RenderCompPtr{ startButton->GetComponent<RenderComponent>() }
+	: m_RenderCompPtr{ startButton->GetComponent<SpriteComponent>() }
 {
 }
 
@@ -29,7 +29,7 @@ std::string StartState::TransitionState()
 }
 
 VersusState::VersusState(GameObject* versusButton)
-	: m_RenderCompPtr{ versusButton->GetComponent<RenderComponent>() }
+	: m_RenderCompPtr{ versusButton->GetComponent<SpriteComponent>() }
 {
 }
 

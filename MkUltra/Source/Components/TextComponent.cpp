@@ -2,7 +2,7 @@
 #include <SDL_ttf.h>
 
 #include "TextComponent.h"
-#include "RenderComponent.h"
+#include "SpriteComponent.h"
 #include "GameObject.h"
 
 #include "Renderer.h"
@@ -23,7 +23,7 @@ TextComponent::TextComponent(const std::string& text, const std::string& fontNam
 
 void TextComponent::Start()
 {
-	m_RendererPtr = GetOwner()->AddComponent<RenderComponent>(m_Texture.get());
+	m_RendererPtr = GetOwner()->AddComponent<SpriteComponent>(m_Texture.get());
 }
 
 void TextComponent::Update()

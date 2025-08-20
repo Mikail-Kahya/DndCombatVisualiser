@@ -1,9 +1,12 @@
 #pragma once
-#include <cstdint>
 #include <vector>
 
-#include "SpriteComponent.h"
+#include "IComponent.h"
+#include "IRenderer.h"
 #include "Texture2D.h"
+
+// Shape component creating primitives based on vertices given
+// Vertices are in the order of the vector
 
 namespace mk
 {

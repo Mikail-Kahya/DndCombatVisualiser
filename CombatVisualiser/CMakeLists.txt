@@ -8,24 +8,16 @@ add_executable(${PROJECT_NAME}
 
   "Input/PlayerCommand.cpp"
 
-  
-  
-
   "Components/Character/HealthComponent.cpp"
   "Components/Character/MovementComponent.cpp"
   "Components/Character/HealthBarComponent.cpp"
 
   "Components/Map/ShapeGridComponent.cpp"
   "Components/Map/ShapeHoverComponent.cpp"
+  "Components/Map/ShapeModifierComponent.cpp"
   
   
   "Components/FPSComponent.cpp"
-  
-  
-  
-  
-   
-   
 
   
  "Levels/Levels.cpp"

@@ -86,10 +86,12 @@ void mk::LoadMainGame(Scene& scene)
 
 	GameObject* bgGrid{ scene.SpawnObject("Shape") };
 	auto shapeComponentPtr{ bgGrid->AddComponent<ShapeComponent>() };
-	shapeComponentPtr->AddPoint({ -50, -50 });
-	shapeComponentPtr->AddPoint({ 50, -50});
-	shapeComponentPtr->AddPoint({ 0, 50 });
+	shapeComponentPtr->AddPoint({ 0, 0 });
+	shapeComponentPtr->AddPoint({ 20, 0});
+	shapeComponentPtr->AddPoint({ 20, 20 });
+	shapeComponentPtr->AddPoint({ 0, 20 });
 	shapeComponentPtr->SetColor({ 200, 0, 0, 255 });
+	shapeComponentPtr->SetFill(true);
 
 	bgGrid->AddComponent<ShapeGridComponent>(5,5, 10.f);
 }

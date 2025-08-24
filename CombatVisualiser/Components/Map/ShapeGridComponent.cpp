@@ -3,6 +3,8 @@
 #include "GameObject.h"
 #include "SceneManager.h"
 #include "ShapeComponent.h"
+#include "ShapeHoverComponent.h"
+#include "ShapeModifierComponent.h"
 
 using namespace mk;
 
@@ -37,6 +39,8 @@ void ShapeGridComponent::Start()
 			cellShapePtr->SetColor(templateShapePtr->GetColor());
 			cellShapePtr->SetCloseShape(templateShapePtr->IsClosed());
 			cellShapePtr->SetDepth(templateShapePtr->GetDepth());
+
+			cellPtr->AddComponent<ShapeHoverComponent>()->AddObserver(cellPtr->AddComponent<ShapeModifierComponent>());
 		}
 	}
 }

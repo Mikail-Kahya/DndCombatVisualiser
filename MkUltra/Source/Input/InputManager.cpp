@@ -6,9 +6,18 @@
 
 using namespace mk;
 
+glm::vec2 InputManager::GetMousePosition() const
+{
+	return m_MousePos;
+}
+
 bool InputManager::ProcessInput()
 {
 	SDL_Event e;
+
+	int x{}, y{};
+	SDL_GetMouseState(&x, &y);
+	m_MousePos = { x, y };
 
 	while (SDL_PollEvent(&e)) 
 	{

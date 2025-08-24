@@ -36,5 +36,8 @@ void SceneManager::LoadScene(const std::string& name, const std::function<void(S
 
 Scene& SceneManager::GetScene() const
 {
-	return *m_Scene;
+	if (m_Scene)
+		return *m_Scene;
+
+	return *m_LoadedScene;
 }

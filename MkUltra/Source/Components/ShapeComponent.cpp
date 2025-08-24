@@ -34,7 +34,7 @@ void ShapeComponent::Render() const
 	if (m_CloseShape)
 		points.emplace_back(*points.begin());
 
-	Renderer::GetInstance().RenderShape(m_Points, m_Color);
+	Renderer::GetInstance().RenderShape(points, m_Color);
 
 	if (!m_IsFilled)
 		return;

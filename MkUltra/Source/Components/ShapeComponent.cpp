@@ -49,6 +49,16 @@ const std::pair<ShapeComponent::Point, ShapeComponent::Point>& ShapeComponent::G
 	return m_Bounds;
 }
 
+float ShapeComponent::GetHeight() const
+{
+	return m_Height;
+}
+
+float ShapeComponent::GetWidth() const
+{
+	return m_Width;
+}
+
 bool ShapeComponent::IsFilled() const
 {
 	return m_IsFilled;

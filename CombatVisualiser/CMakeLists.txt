@@ -16,6 +16,7 @@ add_executable(${PROJECT_NAME}
   "Components/Character/HealthBarComponent.cpp"
 
   "Components/Map/ShapeGridComponent.cpp"
+  "Components/Map/ShapeHoverComponent.cpp"
   
   
   "Components/FPSComponent.cpp"

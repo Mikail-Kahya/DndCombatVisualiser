@@ -27,7 +27,7 @@ const TimeManager& mk::Time()
 	return SceneManager::GetInstance().GetTimeManager();
 }
 
-void SceneManager::LoadScene(const std::string& name, std::function<void(Scene&)> sceneLoader)
+void SceneManager::LoadScene(const std::string& name, const std::function<void(Scene&)>& sceneLoader)
 {
 	m_LoadedScene = std::make_unique<Scene>(name);
 	sceneLoader(*m_LoadedScene);

@@ -23,7 +23,7 @@ namespace mk
 		SceneManager& operator=(const SceneManager& other)		= delete;
 		SceneManager& operator=(SceneManager&& other) noexcept	= delete;
 
-		void LoadScene(const std::string& name, std::function<void(Scene&)> sceneLoader);
+		void LoadScene(const std::string& name, const std::function<void(Scene&)>& sceneLoader);
 		Scene& GetScene() const;
 
 		void FixedUpdate();

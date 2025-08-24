@@ -43,7 +43,7 @@ void ShapeComponent::Render() const
 	{
 		for (int y{ (int)m_Bounds.first.y }; y < m_Bounds.second.y; ++y)
 		{
-			const glm::vec2 point{ x, y };
+			const glm::vec2 point{ glm::vec2{ x, y} + pos };
 			if (IsPointInShape(point))
 				Renderer::GetInstance().RenderPoint(point, m_Color);
 		}
@@ -87,6 +87,7 @@ bool ShapeComponent::IsClosed() const
 
 bool ShapeComponent::IsPointInShape(const glm::vec2& point) const
 {
+	const glm::vec2 worldPos{ GetOwner()->GetWorldPosition() };
 	const int32_t nrPoints{ static_cast<int32_t>(m_Points.size()) };
 	const glm::vec2 p2{ point.x + m_Width, point.y };
 	int32_t intersectCount{};
@@ -98,8 +99,8 @@ bool ShapeComponent::IsPointInShape(const glm::vec2& point) const
 	// Loop over every edge (last edge is looped back)
 	for (size_t idx{}; idx < m_Points.size(); ++idx)
 	{
-		const glm::vec2& q1{ m_Points[idx] };
-		const glm::vec2& q2{ m_Points[(idx + 1) % nrPoints] };
+		const glm::vec2& q1{ m_Points[idx] + worldPos };
+		const glm::vec2& q2{ m_Points[(idx + 1) % nrPoints] + worldPos };
 
 		
 		const glm::vec2 r{ p2 - point };

@@ -21,6 +21,9 @@ ShapeComponent::ShapeComponent(const std::vector<Point>& points)
 
 void ShapeComponent::Render() const
 {
+	if (m_Points.empty())
+		return;
+
 	const glm::vec2 pos{ GetOwner()->GetWorldPosition() };
 	std::vector<Point> points{ m_Points };
 	std::transform(points.cbegin(), points.cend(), points.begin(), [&pos](const Point& point)
@@ -28,6 +31,10 @@ void ShapeComponent::Render() const
 			return Point{ point.x + pos.x, point.y + pos.y };
 		});
 	Renderer::GetInstance().RenderShape(m_Points, m_Color);
+
+	if (!m_IsFilled)
+		return;
+
 	for (int x { (int) m_Bounds.first.x }; x < m_Bounds.second.x; ++x)
 	{
 		for (int y{ (int)m_Bounds.first.y }; y < m_Bounds.second.y; ++y)

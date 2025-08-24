@@ -22,6 +22,7 @@
 #include "Components/FPSComponent.h"
 
 #include "ShapeComponent.h"
+#include "Components/Map/ShapeGridComponent.h"
 
 #include "Input/PlayerCommand.h"
 
@@ -83,12 +84,14 @@ void mk::LoadMainGame(Scene& scene)
 	fpsComponent->SetUpdateDelay(0.5f);
 
 
-	GameObject* shapePtr{ scene.SpawnObject("Shape") };
-	auto shapeComponentPtr{ shapePtr->AddComponent<ShapeComponent>() };
-	shapeComponentPtr->AddPoint({ 100, 100 });
-	shapeComponentPtr->AddPoint({150, 150});
-	shapeComponentPtr->AddPoint({ 200, 100 });
+	GameObject* bgGrid{ scene.SpawnObject("Shape") };
+	auto shapeComponentPtr{ bgGrid->AddComponent<ShapeComponent>() };
+	shapeComponentPtr->AddPoint({ -50, -50 });
+	shapeComponentPtr->AddPoint({ 50, -50});
+	shapeComponentPtr->AddPoint({ 0, 50 });
 	shapeComponentPtr->SetColor({ 200, 0, 0, 255 });
+
+	bgGrid->AddComponent<ShapeGridComponent>(5,5, 10.f);
 }
 
 void LoadHud(Scene& scene, const std::vector<GameObject*>& players)

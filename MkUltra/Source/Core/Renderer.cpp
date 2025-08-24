@@ -72,7 +72,7 @@ void Renderer::Render() const
 	SDL_RenderClear(m_Renderer);
 
 	for (IRenderer* rendererPtr : m_Renderers)
-		rendererPtr->Render();
+		if (rendererPtr->IsVisible()) rendererPtr->Render();
 
 	GUI::GetInstance().Render();
 

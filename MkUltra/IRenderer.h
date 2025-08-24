@@ -15,9 +15,12 @@ namespace mk
 		virtual void Render() const = 0;
 
 		void SetDepth(float newDepth);
+		void SetVisibility(bool isVisible);
 		float GetDepth() const;
+		bool IsVisible() const;
 
 	private:
 		float m_Depth{};
+		bool m_IsVisible{ true };
 	};
 }

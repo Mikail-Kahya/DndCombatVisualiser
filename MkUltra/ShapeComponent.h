@@ -27,9 +27,11 @@ namespace mk
 
 		const std::vector<Point>& GetPoints() const;
 		const std::pair<Point, Point>& GetBounds() const;
+		const Color& GetColor() const;
 		float GetHeight() const;
 		float GetWidth() const;
 		bool IsFilled() const;
+		bool IsClosed() const;
 
 		bool IsPointInShape(const glm::vec2& point) const;
 

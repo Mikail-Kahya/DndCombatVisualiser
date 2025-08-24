@@ -60,6 +60,11 @@ const std::pair<ShapeComponent::Point, ShapeComponent::Point>& ShapeComponent::G
 	return m_Bounds;
 }
 
+const Color& ShapeComponent::GetColor() const
+{
+	return m_Color;
+}
+
 float ShapeComponent::GetHeight() const
 {
 	return m_Height;
@@ -73,6 +78,11 @@ float ShapeComponent::GetWidth() const
 bool ShapeComponent::IsFilled() const
 {
 	return m_IsFilled;
+}
+
+bool ShapeComponent::IsClosed() const
+{
+	return m_CloseShape;
 }
 
 bool ShapeComponent::IsPointInShape(const glm::vec2& point) const

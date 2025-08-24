@@ -5,20 +5,11 @@
 #include "ShapeComponent.h"
 
 
-mk::HoverEvent::HoverEvent(ShapeComponent* shapePtr, Type type)
-	: m_ShapePtr{ shapePtr }
-	, m_Type{ type }
+mk::HoverEvent::HoverEvent(const glm::vec2& _mousePos, ShapeComponent* _shapePtr, Type _type)
+	: mousePos{ _mousePos }
+	, shapePtr{ _shapePtr }
+	, type{ _type }
 {
-}
-
-mk::HoverEvent::Type mk::HoverEvent::GetType() const
-{
-	return m_Type;
-}
-
-mk::ShapeComponent* mk::HoverEvent::GetShape() const
-{
-	return m_ShapePtr;
 }
 
 void mk::ShapeHoverComponent::Start()
@@ -30,10 +21,12 @@ void mk::ShapeHoverComponent::Start()
 void mk::ShapeHoverComponent::Update()
 {
 	IComponent::Update();
-	const bool isHovering{ m_ShapeCompPtr->IsPointInShape(InputManager::GetInstance().GetMousePosition()) };
+	const glm::vec2 mousePos{ InputManager::GetInstance().GetMousePosition() };
+	const bool isHovering{ m_ShapeCompPtr->IsPointInShape(mousePos) };
 	if (isHovering == m_IsHovering)
 		return;
 
-	Notify(std::make_unique<HoverEvent>(m_ShapeCompPtr, isHovering ? HoverEvent::Type::Enter : HoverEvent::Type::Exit));
+	const HoverEvent::Type eventType{ isHovering ? HoverEvent::Type::Enter : HoverEvent::Type::Exit };
+	Notify(std::make_unique<HoverEvent>(mousePos, m_ShapeCompPtr, eventType));
 	m_IsHovering = isHovering;
 }

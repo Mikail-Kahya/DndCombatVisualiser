@@ -30,6 +30,10 @@ void ShapeComponent::Render() const
 		{
 			return Point{ point.x + pos.x, point.y + pos.y };
 		});
+
+	if (m_CloseShape)
+		points.emplace_back(*points.begin());
+
 	Renderer::GetInstance().RenderShape(m_Points, m_Color);
 
 	if (!m_IsFilled)
@@ -124,6 +128,11 @@ void ShapeComponent::SetColor(const Color& color)
 void ShapeComponent::SetFill(bool isFilled)
 {
 	m_IsFilled = isFilled;
+}
+
+void ShapeComponent::SetCloseShape(bool isClosed)
+{
+	m_CloseShape = isClosed;
 }
 
 void ShapeComponent::AddPoint(const Point& point)

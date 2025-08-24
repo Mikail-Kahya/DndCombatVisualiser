@@ -36,6 +36,7 @@ namespace mk
 		void SetPoints(const std::vector<Point>& points);
 		void SetColor(const Color& color);
 		void SetFill(bool isFilled);
+		void SetCloseShape(bool isClosed);
 
 		void AddPoint(const Point& point);
 
@@ -48,5 +49,6 @@ namespace mk
 		float m_Width{};
 		float m_Height{};
 		bool m_IsFilled{ false };
+		bool m_CloseShape{ true };
 	};
 }

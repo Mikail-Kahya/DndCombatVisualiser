@@ -1,5 +1,7 @@
 #include "ShapeModifierComponent.h"
 
+#include <iostream>
+
 #include "ShapeComponent.h"
 #include "ShapeHoverComponent.h"
 
@@ -11,12 +13,14 @@ void mk::ShapeModifierComponent::OnNotify(ISubject* subjectPtr, IEvent* event)
 	if (!hoverEventPtr)
 		return;
 
-	switch (hoverEventPtr->GetType())
+	switch (hoverEventPtr->type)
 	{
 	case HoverEvent::Type::Enter:
-		hoverEventPtr->GetShape()->SetColor({ 0, 255, 0, 255 });
+		hoverEventPtr->shapePtr->SetColor({ 0, 255, 0, 255 });
 		break;
 	case HoverEvent::Type::Exit:
+		hoverEventPtr->Log();
+		hoverEventPtr->shapePtr->SetColor({ 255, 0, 0, 255 });
 		break;
 	}
 }

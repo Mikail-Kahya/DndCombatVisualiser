@@ -8,12 +8,11 @@ namespace mk
 	{
 	public:
 		ShapeModifierComponent() = default;
-		~ShapeModifierComponent() = default;
 
 		ShapeModifierComponent(const ShapeModifierComponent& other)					= delete;
 		ShapeModifierComponent(ShapeModifierComponent&& other) noexcept				= delete;
 		ShapeModifierComponent& operator=(const ShapeModifierComponent& other)		= delete;
-		ShapeModifierComponent& operator=(ShapeModifierComponent&& other)	noexcept	= delete;
+		ShapeModifierComponent& operator=(ShapeModifierComponent&& other) noexcept	= delete;
 
 		void OnNotify(ISubject* subjectPtr, IEvent* event) override;
 

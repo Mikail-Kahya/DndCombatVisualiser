@@ -5,23 +5,43 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # list source files here
 add_executable(${PROJECT_NAME}
   "Main.cpp"
+  #===============
+  # Game world
+  #===============
+  "Levels/Levels.cpp"
 
-  "Input/PlayerCommand.cpp"
-
+  #===============
+  # Components
+  #===============
+  # User
   "Components/Character/HealthComponent.cpp"
   "Components/Character/MovementComponent.cpp"
   "Components/Character/HealthBarComponent.cpp"
-
+  # World
   "Components/Map/ShapeGridComponent.cpp"
   "Components/Map/ShapeHoverComponent.cpp"
   "Components/Map/ShapeModifierComponent.cpp"
-  
-  
+  # Helper
   "Components/FPSComponent.cpp"
-
   
- "Levels/Levels.cpp"
- "Events/Events.h" "Behavior/MenuStates.h" "Behavior/MenuStates.cpp") 
+ 
+  #===============
+  # Input
+  #===============
+  "Input/PlayerCommand.cpp"
+
+  #===============
+  # State
+  #===============
+  "Behavior/MenuStates.h" 
+  "Behavior/MenuStates.cpp" 
+ 
+  #===============
+  # Events
+  #===============
+  "Events/Events.h" 
+ 
+) 
 
  # enable the leak detector tool given by Digital Arts & Entertainment
 set(VLD_DIR "$ENV{ProgramFiles\(x86\)}/Visual Leak Detector")

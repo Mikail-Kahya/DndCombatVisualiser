@@ -41,6 +41,10 @@ add_executable(${PROJECT_NAME}
   #===============
   "Events/Events.h" 
  
+  #===============
+  # Functions
+  #===============
+  "Functions/Pathfinding.cpp"
 ) 
 
  # enable the leak detector tool given by Digital Arts & Entertainment

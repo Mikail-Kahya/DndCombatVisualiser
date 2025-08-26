@@ -24,6 +24,7 @@ void ShapeGridComponent::Start()
 	auto* templateShapePtr = GetOwner()->AddComponent<ShapeComponent>();
 	templateShapePtr->SetVisibility(false);
 
+	// Generate grid with shape similar to template
 	for (int row{}; row < m_Rows; ++row)
 	{
 		const float y{ row * (templateShapePtr->GetHeight() + m_Gap) };

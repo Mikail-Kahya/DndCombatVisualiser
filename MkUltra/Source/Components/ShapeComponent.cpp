@@ -88,6 +88,12 @@ bool ShapeComponent::IsClosed() const
 bool ShapeComponent::IsPointInShape(const glm::vec2& point) const
 {
 	const glm::vec2 worldPos{ GetOwner()->GetWorldPosition() };
+	if (point.x < m_Bounds.first.x + worldPos.x || point.x > m_Bounds.second.x + worldPos.x)
+		return false;
+
+	if (point.y < m_Bounds.first.y + worldPos.y || point.y > m_Bounds.second.y + worldPos.y)
+		return false;
+
 	const int32_t nrPoints{ static_cast<int32_t>(m_Points.size()) };
 	const glm::vec2 p2{ point.x + m_Width, point.y };
 	int32_t intersectCount{};

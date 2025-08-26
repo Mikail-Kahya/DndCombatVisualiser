@@ -22,6 +22,8 @@ namespace mk
 		HoverEvent& operator=(const HoverEvent& other) = delete;
 		HoverEvent& operator=(HoverEvent&& other) noexcept = delete;
 
+		void Log() const;
+
 		const glm::vec2 mousePos{};
 		ShapeComponent* const shapePtr{};
 		const Type type{ Type::Enter };

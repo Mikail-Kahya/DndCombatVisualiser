@@ -1,5 +1,7 @@
 #include "ShapeHoverComponent.h"
 
+#include <iostream>
+
 #include "GameObject.h"
 #include "InputManager.h"
 #include "ShapeComponent.h"
@@ -10,6 +12,18 @@ mk::HoverEvent::HoverEvent(const glm::vec2& _mousePos, ShapeComponent* _shapePtr
 	, shapePtr{ _shapePtr }
 	, type{ _type }
 {
+}
+
+void mk::HoverEvent::Log() const
+{
+	const glm::vec2 shapePos{ shapePtr->GetOwner()->GetWorldPosition() };
+	std::cout << "==================================\n"
+		<< "EventInfo:\n"
+		<< "---------\n"
+		<< "MousePos: [" << mousePos.x << ", " << mousePos.y << "]\n"
+		<< "Bounds:  XMin; " << shapePtr->GetBounds().first.x + shapePos.x << "\tXMax; " << shapePtr->GetBounds().second.x + shapePos.x << "\n"
+		<< "         YMin; " << shapePtr->GetBounds().first.y + shapePos.y << "\tYMax; " << shapePtr->GetBounds().second.y + shapePos.y << "\n"
+		<< "==================================\n";
 }
 
 void mk::ShapeHoverComponent::Start()

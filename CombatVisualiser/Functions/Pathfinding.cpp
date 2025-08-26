@@ -45,3 +45,22 @@ bool Graph::RemoveConnection(size_t fromIdx, size_t toIdx) noexcept
 	return nrConnections;
 }
 
+AStar::AStar(Graph&& graph, const Heuristic& heuristicFunc)
+	: m_Graph{ std::move(graph) }
+	, m_HeuristicFunc{ heuristicFunc }
+{
+}
+
+void AStar::FindPath()
+{
+}
+
+const std::vector<Connection>& AStar::GetPath() const
+{
+	return m_Path;
+}
+
+Graph& AStar::GetGraph()
+{
+	return m_Graph;
+}

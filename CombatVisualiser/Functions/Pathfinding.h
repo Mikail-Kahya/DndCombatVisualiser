@@ -8,12 +8,14 @@ namespace mk
 {
 	namespace algo
 	{
+		typedef float(*Heuristic)(float, float);
 		/* 
 		======================================
 		ASTAR PATHFINDING
 		====================================== 
 		*/
 
+		struct Node // Struct to be overidden during a graph
 		{
 			Node()			= default;
 			virtual ~Node() = default;
@@ -50,5 +52,24 @@ namespace mk
 		};
 
 		
+		class AStar final
+		{
+		public:
+			AStar(Graph&& graph, const Heuristic& heuristicFunc);
+
+			AStar(const AStar& other)					= delete;
+			AStar(AStar&& other) noexcept				= delete;
+			AStar& operator=(const AStar& other)		= delete;
+			AStar& operator=(AStar&& other) noexcept	= delete;
+
+			void FindPath();
+			const std::vector<Connection>& GetPath() const;
+			Graph& GetGraph(); // Returns a reference to adjust the graph in the future
+
+		private:
+			Graph m_Graph{};
+			const Heuristic m_HeuristicFunc{};
+			std::vector<Connection> m_Path{};
+		};
 	}
 }

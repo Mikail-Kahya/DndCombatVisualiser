@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "IComponent.h"
+#include "Functions/Pathfinding.h"
 
 /*
  * Creates child objects with the shape component information
@@ -13,6 +14,23 @@
 namespace mk
 {
 	class ShapeComponent;
+
+	struct GridNode final : algo::Node
+	{
+		GridNode(const glm::vec2& _position, ShapeComponent* _shapePtr) : position{ _position }, shapePtr{ _shapePtr } {}
+
+		GridNode(const GridNode& other) = delete;
+		GridNode(GridNode&& other) noexcept = delete;
+		GridNode& operator=(const GridNode& other) = delete;
+		GridNode& operator=(GridNode&& other) noexcept = delete;
+
+		std::unique_ptr<Node> Clone() const override { return std::make_unique<GridNode>(position, shapePtr); }
+		float GetX() const override { return  position.x; }
+		float GetY() const override { return  position.y; }
+
+		const glm::vec2 position{};
+		ShapeComponent* shapePtr{};
+	};
 
 	class ShapeGridComponent : public IComponent
 	{

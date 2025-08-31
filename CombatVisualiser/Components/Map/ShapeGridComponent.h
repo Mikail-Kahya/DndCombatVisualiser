@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "IComponent.h"
+#include "IObserver.h"
 #include "Functions/Pathfinding.h"
 
 /*
@@ -32,11 +33,10 @@ namespace mk
 		ShapeComponent* shapePtr{};
 	};
 
-	class ShapeGridComponent : public IComponent
+	class ShapeGridComponent : public IComponent, public IObserver
 	{
 	public:	
 		ShapeGridComponent(int nrRows, int nrCols, float gap = 0.f);
-		~ShapeGridComponent() override = default;
 
 		ShapeGridComponent(const ShapeGridComponent& other)					= delete;
 		ShapeGridComponent(ShapeGridComponent&& other) noexcept				= delete;
@@ -45,7 +45,10 @@ namespace mk
 
 		void Start() override;
 
+		void OnNotify(ISubject* subjectPtr, IEvent* event) override;
+
 	private:
+		std::unique_ptr<algo::AStar> m_Pathfinding{};
 		int m_Rows{ 1 };
 		int m_Cols{ 1 };
 		float m_Gap{};

@@ -28,7 +28,6 @@ void ShapeGridComponent::Start()
 	templateShapePtr->SetVisibility(false);
 
 	algo::Graph graph{};
-	algo::Node* prevNode{};
 	// Generate grid with shape similar to template
 	for (int row{}; row < m_Rows; ++row)
 	{
@@ -47,24 +46,58 @@ void ShapeGridComponent::Start()
 			cellShapePtr->SetCloseShape(templateShapePtr->IsClosed());
 			cellShapePtr->SetDepth(templateShapePtr->GetDepth());
 
-			cellPtr->AddComponent<ShapeHoverComponent>()->AddObserver(cellPtr->AddComponent<ShapeModifierComponent>());
+			cellPtr->AddComponent<ShapeHoverComponent>()->AddObserver(this);
 
 			graph.nodes.emplace_back(std::make_unique<GridNode>(pos, cellShapePtr));
-			algo::Node* const currNode{ graph.nodes.back().get() };
-			// 5FT MAGIC NUMBER FOR NOW
-			if (prevNode)
-				graph.connections.emplace_back(prevNode, currNode, 5.f);
-			prevNode = currNode;
 		}
 	}
 
-	
-	algo::AStar algo{std::move(graph), [](float a, float b) { return a + b; } };
-	algo.FindPath(6, 12);
-
-	for (const auto& currNode : algo.GetPath())
+	// Fill graph with connections
+	const int nrNodes{ static_cast<int>(graph.nodes.size()) };
+	for (int idx{}; idx < nrNodes; ++idx)
 	{
-		std::cout << currNode->GetX() << ", " << currNode->GetY() << std::endl;
-		dynamic_cast<GridNode*>(currNode)->shapePtr->SetColor({ 0, 0, 255, 255 });
+		// Check every neighbouring node
+		const int checkRanges[]{ -m_Cols - 1, -m_Cols, -m_Cols + 1,
+								 -1,				    1,
+								  m_Cols - 1,  m_Cols,  m_Cols + 1 };
+		for (auto checkRange : checkRanges)
+		{
+			constexpr float moveWeight{ 5.f };
+			const int checkIdx{ idx + checkRange };
+			if (checkIdx >= 0 && checkIdx < nrNodes)
+				graph.connections.emplace_back(	graph.nodes[idx].get(),
+												graph.nodes[checkIdx].get(),
+												moveWeight);
+		}
+	}
+	
+	m_Pathfinding = std::make_unique<algo::AStar>(std::move(graph), [](float a, float b) { return a + b; });
+}
+
+void ShapeGridComponent::OnNotify(ISubject* subjectPtr, IEvent* event)
+{
+	IObserver::OnNotify(subjectPtr, event);
+
+	HoverEvent* hoverEventPtr{ dynamic_cast<HoverEvent*>(event) };
+	if (!hoverEventPtr)
+		return;
+
+	size_t hoverIdx{};
+	for (size_t idx{}; idx < m_Pathfinding->GetGraph().nodes.size(); ++idx)
+	{
+		auto gridNodePtr{ dynamic_cast<GridNode*>(m_Pathfinding->GetGraph().nodes[idx].get())};
+		gridNodePtr->shapePtr->SetColor({ 0, 0, 255, 255 });
+		if (gridNodePtr->shapePtr == hoverEventPtr->shapePtr)
+			hoverIdx = idx;
+	}
+
+	switch (hoverEventPtr->type)
+	{
+	case HoverEvent::Type::Enter:
+		m_Pathfinding->FindPath(0, hoverIdx);
+		for (const auto nodePtr : m_Pathfinding->GetPath())
+			dynamic_cast<GridNode*>(nodePtr)->shapePtr->SetColor({ 255, 0, 0, 255 });
+		hoverEventPtr->shapePtr->SetColor({ 0, 255, 0, 255 });
+		break;
 	}
 }

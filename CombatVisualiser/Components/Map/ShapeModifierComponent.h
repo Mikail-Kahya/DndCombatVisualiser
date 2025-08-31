@@ -4,7 +4,7 @@
 
 namespace mk
 {
-	class ShapeModifierComponent : public IComponent, public IObserver
+	class ShapeModifierComponent : public IComponent
 	{
 	public:
 		ShapeModifierComponent() = default;
@@ -13,8 +13,6 @@ namespace mk
 		ShapeModifierComponent(ShapeModifierComponent&& other) noexcept				= delete;
 		ShapeModifierComponent& operator=(const ShapeModifierComponent& other)		= delete;
 		ShapeModifierComponent& operator=(ShapeModifierComponent&& other) noexcept	= delete;
-
-		void OnNotify(ISubject* subjectPtr, IEvent* event) override;
 
 	private:
 	};

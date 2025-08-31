@@ -121,8 +121,7 @@ bool AStar::FindPath(Node* startNodePtr, Node* goalNodePtr, size_t maxSteps)
 
 	openList.push_back(currentRecord);
 
-	// Water => Use estimated cost
-
+	// Check graph and fill closed list
 	while (!openList.empty())
 	{
 		if (currentStep > maxSteps)
@@ -164,6 +163,7 @@ bool AStar::FindPath(Node* startNodePtr, Node* goalNodePtr, size_t maxSteps)
 
 	if (foundPath)
 	{
+		// from the end to start, walk slowly backwards stepwise
 		m_Path.clear();
 		while (currentRecord.nodePtr != startNodePtr)
 		{

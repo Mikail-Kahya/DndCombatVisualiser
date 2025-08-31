@@ -48,7 +48,10 @@ namespace mk
 		void OnNotify(ISubject* subjectPtr, IEvent* event) override;
 
 	private:
+		void ResetField() const;
+
 		std::unique_ptr<algo::AStar> m_Pathfinding{};
+		GridNode* m_ActiveNodePtr{};
 		int m_Rows{ 1 };
 		int m_Cols{ 1 };
 		float m_Gap{};

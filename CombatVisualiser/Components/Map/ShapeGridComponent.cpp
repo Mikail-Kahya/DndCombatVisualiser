@@ -82,22 +82,38 @@ void ShapeGridComponent::OnNotify(ISubject* subjectPtr, IEvent* event)
 	if (!hoverEventPtr)
 		return;
 
-	size_t hoverIdx{};
-	for (size_t idx{}; idx < m_Pathfinding->GetGraph().nodes.size(); ++idx)
-	{
-		auto gridNodePtr{ dynamic_cast<GridNode*>(m_Pathfinding->GetGraph().nodes[idx].get())};
-		gridNodePtr->shapePtr->SetColor({ 0, 0, 255, 255 });
-		if (gridNodePtr->shapePtr == hoverEventPtr->shapePtr)
-			hoverIdx = idx;
-	}
+	const auto hoveredNode = std::ranges::find_if(m_Pathfinding->GetGraph().nodes, [hoverEventPtr](const std::unique_ptr<algo::Node>& node)
+		{
+			return hoverEventPtr->shapePtr == dynamic_cast<GridNode*>(node.get())->shapePtr;
+		});
+	const size_t hoverIdx{ static_cast<size_t>(std::distance(m_Pathfinding->GetGraph().nodes.begin(), hoveredNode)) };
 
 	switch (hoverEventPtr->type)
 	{
 	case HoverEvent::Type::Enter:
+		ResetField();
+		m_ActiveNodePtr = dynamic_cast<GridNode*>(hoveredNode->get());
 		m_Pathfinding->FindPath(0, hoverIdx);
 		for (const auto nodePtr : m_Pathfinding->GetPath())
 			dynamic_cast<GridNode*>(nodePtr)->shapePtr->SetColor({ 255, 0, 0, 255 });
 		hoverEventPtr->shapePtr->SetColor({ 0, 255, 0, 255 });
 		break;
+	case HoverEvent::Type::Exit:
+		if (dynamic_cast<GridNode*>(hoveredNode->get()) == m_ActiveNodePtr)
+			ResetField();
+		break;
+	}
+
+	
+
+
+}
+
+void ShapeGridComponent::ResetField() const
+{
+	for (size_t idx{}; idx < m_Pathfinding->GetGraph().nodes.size(); ++idx)
+	{
+		auto gridNodePtr{ dynamic_cast<GridNode*>(m_Pathfinding->GetGraph().nodes[idx].get()) };
+		gridNodePtr->shapePtr->SetColor({ 0, 0, 255, 255 });
 	}
 }

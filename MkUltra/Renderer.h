@@ -9,7 +9,7 @@
 
 namespace mk
 {
-	class IRenderer;
+	class IRenderable;
 	class SpriteComponent;
 
 	/**
@@ -42,8 +42,8 @@ namespace mk
 		const SDL_Color& GetBackgroundColor() const { return m_ClearColor; }
 		void SetBackgroundColor(const SDL_Color& color) { m_ClearColor = color; }
 
-		void RegisterRenderer(IRenderer* rendererPtr);
-		void DeregisterRenderer(IRenderer* rendererPtr);
+		void RegisterRenderer(IRenderable* rendererPtr);
+		void DeregisterRenderer(IRenderable* rendererPtr);
 		void FlagDepthDirty();
 
 	private:
@@ -51,7 +51,7 @@ namespace mk
 		SDL_Rect GetDstRect(const Texture2D& texture, float x, float y) const;
 
 		// Sorts by float. Whenever the float changes
-		std::list<IRenderer*> m_Renderers{};
+		std::list<IRenderable*> m_Renderers{};
 
 		SDL_Renderer* m_Renderer{};
 		SDL_Window* m_Window{};

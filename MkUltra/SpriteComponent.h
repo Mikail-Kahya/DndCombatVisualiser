@@ -3,14 +3,14 @@
 #include <string_view>
 
 #include "IComponent.h"
-#include "IRenderer.h"
+#include "IRenderable.h"
 #include "Transform.h"
 
 namespace mk
 {
 	class Texture2D;
 
-	class SpriteComponent : public IComponent, public IRenderer
+	class SpriteComponent : public IComponent, public IRenderable
 	{
 	public:
 		SpriteComponent(Texture2D* texturePtr);

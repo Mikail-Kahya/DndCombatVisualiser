@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "IComponent.h"
-#include "IRenderer.h"
+#include "IRenderable.h"
 #include "Texture2D.h"
 
 // Shape component creating primitives based on vertices given
@@ -10,7 +10,7 @@
 
 namespace mk
 {
-	class ShapeComponent : public IComponent, public IRenderer
+	class ShapeComponent : public IComponent, public IRenderable
 	{
 		using Point = glm::vec2;
 	public:

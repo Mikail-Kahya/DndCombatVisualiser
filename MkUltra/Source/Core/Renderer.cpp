@@ -9,7 +9,7 @@
 #include "SceneManager.h"
 #include "Texture2D.h"
 #include "GUI.h"
-#include "IRenderer.h"
+#include "IRenderable.h"
 #include "PhysicsSystem.h"
 
 using namespace mk;
@@ -57,7 +57,7 @@ void Renderer::Update()
 	if (!m_DepthChanged)
 		return;
 
-	m_Renderers.sort([](const IRenderer* a, const IRenderer* b)
+	m_Renderers.sort([](const IRenderable* a, const IRenderable* b)
 		{
 			return a->GetDepth() < b->GetDepth();
 		});
@@ -71,7 +71,7 @@ void Renderer::Render() const
 	SDL_SetRenderDrawColor(m_Renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_Renderer);
 
-	for (IRenderer* rendererPtr : m_Renderers)
+	for (IRenderable* rendererPtr : m_Renderers)
 		if (rendererPtr->IsVisible()) rendererPtr->Render();
 
 	GUI::GetInstance().Render();
@@ -173,7 +173,7 @@ int Renderer::GetWidth() const noexcept
 	return m_Width;
 }
 
-void Renderer::RegisterRenderer(IRenderer* rendererPtr)
+void Renderer::RegisterRenderer(IRenderable* rendererPtr)
 {
 	const auto foundIt = std::ranges::find(m_Renderers, rendererPtr);
 	if (foundIt != m_Renderers.end())
@@ -183,7 +183,7 @@ void Renderer::RegisterRenderer(IRenderer* rendererPtr)
 	const float newDepth{ rendererPtr->GetDepth() };
 
 	const auto lowerBoundIt = std::ranges::find_if(m_Renderers,
-		[newDepth](const IRenderer* a)
+		[newDepth](const IRenderable* a)
 		{
 			const float aDepth{ a->GetDepth() };
 			return aDepth < newDepth;
@@ -198,7 +198,7 @@ void Renderer::RegisterRenderer(IRenderer* rendererPtr)
 		m_Renderers.insert(std::prev(lowerBoundIt), rendererPtr);
 }
 
-void Renderer::DeregisterRenderer(IRenderer* rendererPtr)
+void Renderer::DeregisterRenderer(IRenderable* rendererPtr)
 {
 	std::erase(m_Renderers, rendererPtr);
 }

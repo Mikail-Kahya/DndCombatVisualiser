@@ -77,6 +77,7 @@ void mk::LoadMainGame(Scene& scene)
 {
 	const Renderer& renderer{ Renderer::GetInstance() };
 	const int screenHeight{ renderer.GetHeight() };
+	const int screenWidth{ renderer.GetWidth() };
 
 	GameObject* fps = scene.SpawnObject("fps");
 	fps->SetLocalPosition({ 0, 0.95f * screenHeight });
@@ -84,16 +85,18 @@ void mk::LoadMainGame(Scene& scene)
 	fpsComponent->SetUpdateDelay(0.5f);
 
 
+	constexpr int width{ 20 };
+	constexpr int height{ 20 };
 	GameObject* bgGrid{ scene.SpawnObject("Shape") };
 	auto shapeComponentPtr{ bgGrid->AddComponent<ShapeComponent>() };
 	shapeComponentPtr->AddPoint({ 0, 0 });
-	shapeComponentPtr->AddPoint({ 20, 0});
-	shapeComponentPtr->AddPoint({ 20, 20 });
-	shapeComponentPtr->AddPoint({ 0, 20 });
+	shapeComponentPtr->AddPoint({ width * 0.5f, 0});
+	shapeComponentPtr->AddPoint({ width * 0.5f, height * 0.5f });
+	shapeComponentPtr->AddPoint({ 0, height * 0.5f });
 	shapeComponentPtr->SetColor({ 200, 0, 0, 255 });
 	shapeComponentPtr->SetFill(true);
 
-	bgGrid->AddComponent<ShapeGridComponent>(5,5, 10.f);
+	bgGrid->AddComponent<ShapeGridComponent>(screenWidth / width, screenHeight / height);
 }
 
 void LoadHud(Scene& scene, const std::vector<GameObject*>& players)

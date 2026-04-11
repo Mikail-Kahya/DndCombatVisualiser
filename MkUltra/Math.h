@@ -18,6 +18,12 @@ namespace mk {
 		Vector2 operator+(const Vector2& other) const;
 		Vector2 operator-(const Vector2& other) const;
 		float operator*(const Vector2& other) const;
+
+		Vector2 operator*(float scalar) const;
+		Vector2 operator/(float divider) const;
+		friend Vector2 operator*(float scalar, const Vector2& vec);
+		friend Vector2 operator/(float divider, const Vector2& vec);
+
 		Vector2& operator+=(const Vector2& other);
 		Vector2& operator-=(const Vector2& other);
 

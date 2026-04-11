@@ -58,6 +58,26 @@ float Vector2::operator*(const Vector2& other) const
 	return x * other.x + y * other.y + z * other.z;
 }
 
+Vector2 Vector2::operator*(float scalar) const
+{
+	return { x * scalar, y * scalar, z * scalar };
+}
+
+Vector2 Vector2::operator/(float divider) const
+{
+	return { x / divider, y / divider,z / divider };
+}
+
+Vector2 mk::operator*(float scalar, const Vector2& vec)
+{
+	return vec * scalar;
+}
+
+Vector2 mk::operator/(float divider, const Vector2& vec)
+{
+	return divider * vec;
+}
+
 Vector2& Vector2::operator+=(const Vector2& other)
 {
 	x += other.x;

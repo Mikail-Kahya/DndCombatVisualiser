@@ -5,7 +5,7 @@ using namespace mk;
 
 float Vector2::Angle(const Vector2& a, const Vector2& b)
 {
-	return acosf(Vector2::Dot(a, b) / (a.Length() * a.Length()));
+	return std::acosf(Vector2::Dot(a, b) / (a.Length() * a.Length()));
 }
 
 float Vector2::Dot(const Vector2& a, const Vector2& b)
@@ -35,12 +35,12 @@ float Vector2::LengthSqr() const
 
 float Vector2::DotAngle() const
 {
-	return acosf(x * x + y * y);
+	return std::acosf(x * x + y * y);
 }
 
 float Vector2::CrossAngle() const
 {
-	return asinf(x * x + y * y);
+	return std::asinf(x * x + y * y);
 }
 
 Vector2 Vector2::operator+(const Vector2& other) const

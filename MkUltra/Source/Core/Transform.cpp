@@ -9,9 +9,9 @@ Transform::Transform()
 	m_Position.z = Renderer::GetInstance().GetNextDepth();
 }
 
-glm::vec2 Transform::GetPosition() const
+Vector2 Transform::GetPosition() const
 {
-	return { m_Position.x, m_Position.y };
+	return m_Position;
 }
 
 float Transform::GetRotation() const
@@ -19,7 +19,7 @@ float Transform::GetRotation() const
 	return m_Rotation;
 }
 
-const glm::vec2& Transform::GetScale() const
+Vector2 Transform::GetScale() const
 {
 	return m_Scale;
 }
@@ -29,10 +29,9 @@ float Transform::GetDepth() const
 	return m_Position.z;
 }
 
-void Transform::AddOffset(const glm::vec2& offset)
+void Transform::AddOffset(const Vector2& offset)
 {
-	m_Position.x += offset.x;
-	m_Position.y += offset.y;
+	m_Position += offset;
 }
 
 void Transform::AddRotation(float deltaAngle)
@@ -40,7 +39,7 @@ void Transform::AddRotation(float deltaAngle)
 	m_Rotation += deltaAngle;
 }
 
-void Transform::AddScale(const glm::vec2& deltaScale)
+void Transform::AddScale(const Vector2& deltaScale)
 {
 	m_Scale += deltaScale;
 }
@@ -50,10 +49,9 @@ void Transform::AddDepth(float deltaDepth)
 	m_Position.z += deltaDepth;
 }
 
-void Transform::SetPosition(const glm::vec2& position)
+void Transform::SetPosition(const Vector2& position)
 {
-	m_Position.x = position.x;
-	m_Position.y = position.y;
+	m_Position = position;
 }
 
 void Transform::SetRotation(float angle)
@@ -61,7 +59,7 @@ void Transform::SetRotation(float angle)
 	m_Rotation = angle;
 }
 
-void Transform::SetScale(const glm::vec2& scale)
+void Transform::SetScale(const Vector2& scale)
 {
 	m_Scale = scale;
 }

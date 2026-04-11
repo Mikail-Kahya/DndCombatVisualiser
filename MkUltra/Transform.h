@@ -1,7 +1,5 @@
 #pragma once
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/glm.hpp>
+#include "Math.h"
 
 namespace mk
 {
@@ -10,24 +8,24 @@ namespace mk
 	public:
 		Transform();
 
-		glm::vec2 GetPosition() const;
+		Vector2 GetPosition() const;
 		float GetRotation() const;
-		const glm::vec2& GetScale() const;
+		Vector2 GetScale() const;
 		float GetDepth() const;
 
-		void AddOffset(const glm::vec2& offset);
+		void AddOffset(const Vector2& offset);
 		void AddRotation(float deltaAngle);
-		void AddScale(const glm::vec2& deltaScale);
+		void AddScale(const Vector2& deltaScale);
 		void AddDepth(float deltaDepth);
 
-		void SetPosition(const glm::vec2& position);
+		void SetPosition(const Vector2& position);
 		void SetRotation(float angle);
-		void SetScale(const glm::vec2& scale);
+		void SetScale(const Vector2& scale);
 		void SetDepth(float depth);
 
 	private:
-		glm::vec3 m_Position{};
+		Vector2 m_Position{};
 		float m_Rotation{};
-		glm::vec2 m_Scale{};
+		Vector2 m_Scale{};
 	};
 }

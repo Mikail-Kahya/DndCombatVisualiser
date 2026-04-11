@@ -1,5 +1,5 @@
 #pragma once
-#include <glm/vec2.hpp>
+#include "Math.h"
 
 struct Color
 {
@@ -22,7 +22,7 @@ namespace mk
 		explicit Texture2D(SDL_Texture* texture);
 		~Texture2D();
 
-		glm::ivec2 GetSize() const;
+		Vector2 GetSize() const;
 
 		Texture2D(const Texture2D &) = delete;
 		Texture2D(Texture2D &&) = delete;
@@ -30,5 +30,6 @@ namespace mk
 		Texture2D & operator= (const Texture2D &&) = delete;
 	private:
 		SDL_Texture* m_texture;
+		Vector2 m_Size{};
 	};
 }

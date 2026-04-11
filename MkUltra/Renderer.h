@@ -26,12 +26,12 @@ namespace mk
 
 		void RenderRect(int x, int y, int width, int height, const Color& color) const;
 		void RenderLine(int x1, int y1, int x2, int y2, const Color& color) const;
-		void RenderShape(const std::vector<glm::vec2>& points, const Color& color) const;
-		void RenderPoint(const glm::vec2& point, const Color& color) const;
+		void RenderShape(const std::vector<Vector2>& points, const Color& color) const;
+		void RenderPoint(const Vector2& point, const Color& color) const;
 		void RenderTexture(const SpriteComponent* renderComponentPtr) const;
 		void RenderTexture(	const Texture2D& texture, int width, int height,
-							const glm::vec2& pos, const glm::vec2& anchor, float angle,
-							const glm::vec2& srcPos, int srcWidth, int srcHeight,
+							const Vector2& pos, const Vector2& anchor, float angle,
+							const Vector2& srcPos, int srcWidth, int srcHeight,
 							bool flipX, bool flipY) const;
 
 		float GetNextDepth();

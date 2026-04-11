@@ -25,31 +25,31 @@ namespace mk
 		void LateUpdate() override;
 
 		Texture2D* GetTexture() const;
-		glm::vec2 GetRenderPosition() const;
+		Vector2 GetRenderPosition() const;
 		float GetRenderDepth() const;
 		std::pair<bool, bool> IsFlipped() const;
-		const glm::vec2& GetAnchor() const;
+		const Vector2& GetAnchor() const;
 		float GetWidth() const;
 		float GetHeight() const;
 
-		const glm::vec2& GetSrcPosition() const;
-		const glm::vec2& GetSrcSize() const;
+		const Vector2& GetSrcPosition() const;
+		const Vector2& GetSrcSize() const;
 
 		void SetTexture(Texture2D* texturePtr, bool useTextureDimensions = true);
-		void SetAnchor(const glm::vec2& anchor);
+		void SetAnchor(const Vector2& anchor);
 		void SetFlipHorizontal(bool isFlipped);
 		void SetFlipVertical(bool isFlipped);
 
 		void SetWidth(float width);
 		void SetHeight(float height);
 
-		void SetSrcPosition(const glm::vec2& position);
-		void SetSrcSize(const glm::vec2& dimensions);
+		void SetSrcPosition(const Vector2& position);
+		void SetSrcSize(const Vector2& dimensions);
 
 	private:
-		glm::vec2 m_Anchor{};
-		glm::vec2 m_SrcPos{};
-		glm::vec2 m_SrcSize{};
+		Vector2 m_Anchor{};
+		Vector2 m_SrcPos{};
+		Vector2 m_SrcSize{};
 		Texture2D* m_TexturePtr{};
 		float m_Depth{};
 		float m_Width{};

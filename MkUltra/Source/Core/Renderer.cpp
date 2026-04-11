@@ -124,7 +124,7 @@ void Renderer::RenderLine(int x1, int y1, int x2, int y2, const Color& color) co
 	SDL_SetRenderDrawColor(m_Renderer, temp.r, temp.g, temp.b, temp.a);
 }
 
-void Renderer::RenderShape(const std::vector<glm::vec2>& points, const Color& color) const
+void Renderer::RenderShape(const std::vector<Vector2>& points, const Color& color) const
 {
 	Color temp{};
 	SDL_GetRenderDrawColor(m_Renderer, &temp.r, &temp.g, &temp.b, &temp.a);
@@ -141,7 +141,7 @@ void Renderer::RenderShape(const std::vector<glm::vec2>& points, const Color& co
 	SDL_SetRenderDrawColor(m_Renderer, temp.r, temp.g, temp.b, temp.a);
 }
 
-void Renderer::RenderPoint(const glm::vec2& point, const Color& color) const
+void Renderer::RenderPoint(const Vector2& point, const Color& color) const
 {
 	Color temp{};
 	SDL_GetRenderDrawColor(m_Renderer, &temp.r, &temp.g, &temp.b, &temp.a);
@@ -209,8 +209,8 @@ void Renderer::FlagDepthDirty()
 }
 
 void Renderer::RenderTexture(	const Texture2D& texture, int width, int height, 
-								const glm::vec2& pos, const glm::vec2& anchor, float angle, 
-								const glm::vec2& srcPos, int srcWidth, int srcHeight, 
+								const Vector2& pos, const Vector2& anchor, float angle, 
+								const Vector2& srcPos, int srcWidth, int srcHeight, 
 								bool flipX, bool flipY) const
 {
 	if (!texture.GetSDLTexture())
@@ -250,7 +250,7 @@ SDL_Rect Renderer::GetDstRect(const Texture2D& texture, float x, float y) const
 {
 	const auto size{ texture.GetSize() };
 	return{	static_cast<int>(x),
-				m_Height - static_cast<int>(y) - texture.GetSize().y, // flip Y to be at the bottom
-				size.x,
-				size.y };
+				m_Height - static_cast<int>(y) - static_cast<int>(texture.GetSize().y), // flip Y to be at the bottom
+				static_cast<int>(size.x),
+				static_cast<int>(size.y) };
 }

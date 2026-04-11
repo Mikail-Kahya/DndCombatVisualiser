@@ -47,9 +47,9 @@ Texture2D* SpriteComponent::GetTexture() const
 	return m_TexturePtr;
 }
 
-glm::vec2 SpriteComponent::GetRenderPosition() const
+Vector2 SpriteComponent::GetRenderPosition() const
 {
-	glm::vec2 position{ GetOwner()->GetWorldPosition() };
+	Vector2 position{ GetOwner()->GetWorldPosition() };
 	position.x -= m_Anchor.x * m_Width;
 	position.y -= m_Anchor.y * m_Height;
 	return { position.x, position.y };
@@ -65,7 +65,7 @@ std::pair<bool, bool> SpriteComponent::IsFlipped() const
 	return m_FlipAxis;
 }
 
-const glm::vec2& SpriteComponent::GetAnchor() const
+const Vector2& SpriteComponent::GetAnchor() const
 {
 	return m_Anchor;
 }
@@ -80,12 +80,12 @@ float SpriteComponent::GetHeight() const
 	return m_Height;
 }
 
-const glm::vec2& SpriteComponent::GetSrcPosition() const
+const Vector2& SpriteComponent::GetSrcPosition() const
 {
 	return m_SrcPos;
 }
 
-const glm::vec2& SpriteComponent::GetSrcSize() const
+const Vector2& SpriteComponent::GetSrcSize() const
 {
 	return m_SrcSize;
 }
@@ -99,13 +99,13 @@ void SpriteComponent::SetTexture(Texture2D* texturePtr, bool useTextureSize)
 
 	if (useTextureSize)
 	{
-		const glm::vec2 size{ texturePtr->GetSize() };
+		const Vector2 size{ texturePtr->GetSize() };
 		SetWidth(size.x);
 		SetHeight(size.y);
 	}
 }
 
-void SpriteComponent::SetAnchor(const glm::vec2& anchor)
+void SpriteComponent::SetAnchor(const Vector2& anchor)
 {
 	m_Anchor = anchor;
 }
@@ -130,12 +130,12 @@ void SpriteComponent::SetHeight(float height)
 	m_Height = height;
 }
 
-void SpriteComponent::SetSrcPosition(const glm::vec2& position)
+void SpriteComponent::SetSrcPosition(const Vector2& position)
 {
 	m_SrcPos = position;
 }
 
-void SpriteComponent::SetSrcSize(const glm::vec2& dimensions)
+void SpriteComponent::SetSrcSize(const Vector2& dimensions)
 {
 	m_SrcSize = dimensions;
 }

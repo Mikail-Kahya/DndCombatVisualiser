@@ -18,6 +18,7 @@ endif()
 add_library(${ENGINE_NAME} STATIC
   "Source/Core/GameObject.cpp"
   "Source/Core/Transform.cpp"
+  "Source/Core/Math.cpp"
 
   "Source/Input/InputManager.cpp"
   "Source/Core/MkUltra.cpp"
@@ -27,6 +28,7 @@ add_library(${ENGINE_NAME} STATIC
   "Source/Core/ResourceManager.cpp"
   "Source/Core/Texture2D.cpp"
   "Source/Core/Font.cpp"
+  "Source/Core/IRenderable.cpp" 
 
   "Source/Core/Scene.cpp"
   "Source/Core/SceneManager.cpp"
@@ -58,8 +60,7 @@ add_library(${ENGINE_NAME} STATIC
   
   "ISoundSystem.h"
   "NullSoundSystem.h"
-  "Source/Sound/DefaultSoundSystem.cpp"
-    "IRenderable.h" "Source/Core/IRenderable.cpp")
+  "Source/Sound/DefaultSoundSystem.cpp")
 
 # enable c++20 features
 target_compile_features(${ENGINE_NAME} PUBLIC cxx_std_20)

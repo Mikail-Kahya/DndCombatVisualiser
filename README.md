@@ -1,53 +1,38 @@
-# Minigin
+# D&D Campaign Tools
+C++20, [Custom Engine](https://github.com/Mikail-Kahya/custom-engine)
 
-Minigin is a very small project using [SDL2](https://www.libsdl.org/) and [glm](https://github.com/g-truc/glm) for 2D c++ game projects. It is in no way a game engine, only a barebone start project where everything sdl related has been set up. It contains glm for vector math, to aleviate the need to write custom vector and matrix classes.
+## Overview
 
-[![Build Status](https://github.com/avadae/minigin/actions/workflows/msbuild.yml/badge.svg)](https://github.com/avadae/msbuild/actions)
-[![GitHub Release](https://img.shields.io/github/v/release/avadae/minigin?logo=github&sort=semver)](https://github.com/avadae/minigin/releases/latest)
+This project covers automating Dungeons & Dragons combat mechanics and campaign workflows to streamline the experience for my players. These are **extensible editor-style tools** that automate repetitive combat calculations, dice rolls, initiative tracking, and campaign state management. Currently it is designed for me alone but the goal is one day getting a whole interface together and doing the things that I can't on D&D Beyond.
 
-# Goal
 
-Minigin can/may be used as a start project for the exam assignment in the course 'Programming 4' at mk. In that assignment students need to recreate a popular 80's arcade game with a game engine they need to program themselves. During the course we discuss several game programming patterns, using the book '[Game Programming Patterns](https://gameprogrammingpatterns.com/)' by Robert Nystrom as reading material. 
+## Tech Stack
+- **C++20** (modern features, RAII)
+- **Custom engine** (Own engine)
+- **CMake** (modular linking)
+- **Git** (version control)
 
-# Disclaimer
+# Design Philosophy
+- **DM-first** - Tools serve campaign needs (mostly personal)
+- **Expansion** - Easy to add new combat mechanics
+- **Session safe** - No data loss mid-campaign
+- **Lightweight** - Own engine will result in no extra overhead and fast tools
 
-Minigin is, despite perhaps the suggestion in its name, not a game engine. It is just a very simple sdl2 ready project with some of the scaffolding in place to get started. None of the patterns discussed in the course are used yet (except singleton which use we challenge during the course). It is up to the students to implement their own vision for their engine, apply patterns as they see fit, create their game as efficient as possible.
+## Key Tools
+### Combat Automation
+- Initiative tracking with automated turn order
+- Dice roll automation (d20, damage, modifiers) with overrides possible for edge cases
+- Attack/Defense resolution engine
+- Movement tracking using pathfinding
+- Status effect tracking (poison, stun, etc.)
 
-# Use
+### Campaign State Manager (Not done)
+- Persistent save/load for campaign world state
+- NPC tracking and relationship systems
+- Quest/milestone automation
+- Inventory management
 
-Get the source from this project, or since students need to have their work on github too, they can use this repository as a template.
-
-## Windows version
-
-- Install CMake 
-- Install CMake and CMake Tools extensions in Visual Code
-- Open the root folder in Visual Code, a "build" folder will be made by Code and the project can now be build.
-
-## Emscripten version
-
-- Install CMake 
-- Install Emscripten
-- Install Ninja
-- Install python
-
-In a terminal, navigate to the root folder. Run this: 
-
-    mkdir build_web
-    cd build_web
-    emcmake cmake ..
-    emmake ninja
-
-To be able to see the webpage you can simply start a python webserver in the build_web folder
-
-    python -m http.server
-
-Then simply browse to http://localhost:8000 and you're good to go.
-
-## Chocolatey
-
-For installing all of the above I recommend using [Chocolatey](https://chocolatey.org/). You can then simply run the following to install what is needed:
-
-    choco install -y cmake
-    choco install -y emscripten
-    choco install -y ninja
-    choco install -y python
+### Character Sheet Analysis (Not done)
+- Reading character sheets turning them into usable data
+- Adding abilities / custom features that adjust stats (homebrew)
+- Changing equipment and it reflecting in the final stats

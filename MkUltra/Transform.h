@@ -1,5 +1,5 @@
 #pragma once
-#include "Math.h"
+#include "MkMath.h"
 
 namespace mk
 {
@@ -25,6 +25,7 @@ namespace mk
 
 	private:
 		Vector2 m_Position{};
+		float m_Depth{};
 		float m_Rotation{};
 		Vector2 m_Scale{};
 	};

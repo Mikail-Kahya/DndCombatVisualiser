@@ -5,7 +5,7 @@
 
 using namespace mk;
 
-MoveCommand::MoveCommand(GameObject* gameObject, const glm::vec2& direction)
+MoveCommand::MoveCommand(GameObject* gameObject, const Vector2& direction)
 	: GameObjectCommand(gameObject)
 	, m_Direction{ direction }
 {

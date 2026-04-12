@@ -6,7 +6,7 @@ using namespace mk;
 
 Transform::Transform()
 {
-	m_Position.z = Renderer::GetInstance().GetNextDepth();
+	m_Depth = Renderer::GetInstance().GetNextDepth();
 }
 
 Vector2 Transform::GetPosition() const
@@ -26,7 +26,7 @@ Vector2 Transform::GetScale() const
 
 float Transform::GetDepth() const
 {
-	return m_Position.z;
+	return m_Depth;
 }
 
 void Transform::AddOffset(const Vector2& offset)
@@ -46,7 +46,7 @@ void Transform::AddScale(const Vector2& deltaScale)
 
 void Transform::AddDepth(float deltaDepth)
 {
-	m_Position.z += deltaDepth;
+	m_Depth += deltaDepth;
 }
 
 void Transform::SetPosition(const Vector2& position)
@@ -66,5 +66,5 @@ void Transform::SetScale(const Vector2& scale)
 
 void Transform::SetDepth(float depth)
 {
-	m_Position.z = depth;
+	m_Depth = depth;
 }

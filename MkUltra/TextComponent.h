@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "IComponent.h"
-#include "glm/vec2.hpp"
 #include "Texture2D.h"
 
 namespace mk
@@ -30,7 +29,7 @@ namespace mk
 		void SetText(const std::string& text);
 		void SetFont(const std::string& fontPath, unsigned int size);
 		void SetColor(const Color& color);
-		void SetAnchor(const glm::vec2& anchor) const;
+		void SetAnchor(const Vector2& anchor) const;
 
 	private:
 		bool m_NeedsUpdate{ false };

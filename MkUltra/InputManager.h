@@ -14,7 +14,7 @@ namespace mk
 	{
 		friend class ISingleton<InputManager>;
 	public:
-		glm::vec2 GetMousePosition() const;
+		Vector2 GetMousePosition() const;
 		bool ProcessInput();
 		Controller* AddController();
 		void RemoveController(Controller* controllerPtr);
@@ -35,7 +35,7 @@ namespace mk
 
 		std::vector<Controller> m_Controllers;
 		std::vector<std::unique_ptr<Command>> m_Commands;
-		glm::vec2 m_MousePos{};
+		Vector2 m_MousePos{};
 		uint8_t m_Idx{};
 	};
 

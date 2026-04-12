@@ -129,14 +129,14 @@ const std::string& GameObject::GetName() const
 	return m_Name;
 }
 
-glm::vec2 GameObject::GetWorldPosition()
+Vector2 GameObject::GetWorldPosition()
 {
 	if (m_PositionIsDirty)
 		UpdateWorldPosition();
 	return m_WorldTransform.GetPosition();
 }
 
-glm::vec2 GameObject::GetLocalPosition() const
+Vector2 GameObject::GetLocalPosition() const
 {
 	return m_LocalTransform.GetPosition();
 }
@@ -160,10 +160,10 @@ float GameObject::GetRotation()
 	return m_WorldTransform.GetRotation();
 }
 
-glm::vec2 GameObject::GetForward()
+Vector2 GameObject::GetForward()
 {
 	const float angleRad{ GetRotation() * 3.14f / 180.f };
-	return { cosf(angleRad), sinf(angleRad) };
+	return Vector2{ cosf(angleRad), sinf(angleRad) };
 }
 
 bool GameObject::IsStatic() const
@@ -171,13 +171,13 @@ bool GameObject::IsStatic() const
 	return m_IsStatic;
 }
 
-void GameObject::SetLocalPosition(const glm::vec2& position)
+void GameObject::SetLocalPosition(const Vector2& position)
 {
 	m_LocalTransform.SetPosition(position);
 	FlagPositionDirty();
 }
 
-void GameObject::AddLocalOffset(const glm::vec2& offset)
+void GameObject::AddLocalOffset(const Vector2& offset)
 {
 	m_LocalTransform.AddOffset(offset);
 	FlagPositionDirty();

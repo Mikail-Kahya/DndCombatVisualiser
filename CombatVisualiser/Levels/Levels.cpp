@@ -29,7 +29,7 @@
 
 using namespace mk;
 
-GameObject* LoadButton(Scene& scene, const std::string& buttonText, const glm::vec2& pos, float width, float height);
+GameObject* LoadButton(Scene& scene, const std::string& buttonText, const Vector2& pos, float width, float height);
 
 void mk::LoadGameMenu(Scene& scene)
 {
@@ -38,28 +38,28 @@ void mk::LoadGameMenu(Scene& scene)
 	const int screenWidth{ renderer.GetWidth() };
 
 	GameObject* titlePtr{ scene.SpawnObject("Title") };
-	titlePtr->SetLocalPosition({ screenWidth / 2, screenHeight * 0.7f });
+	titlePtr->SetLocalPosition(Vector2{ screenWidth / 2.f, screenHeight * 0.7f });
 
 	TextComponent* textPtr = titlePtr->AddComponent<TextComponent>("TRON");
 	textPtr->SetColor(Color{ 255,255,255,255 });
-	textPtr->SetAnchor(glm::vec2{ 0.5f });
+	textPtr->SetAnchor(Vector2{ 0.5f });
 	textPtr->SetFont("Lingua.otf", 80);
 
 	constexpr float buttonWidth{ 100.f };
 	constexpr float buttonHeight{ buttonWidth * 0.5f };
-	LoadButton(scene, "Start", glm::vec2{ screenWidth / 2, screenHeight * 0.52f }, buttonWidth, buttonHeight);
-	LoadButton(scene, "Versus", glm::vec2{ screenWidth / 2, screenHeight * 0.4f }, buttonWidth, buttonHeight);
+	LoadButton(scene, "Start", Vector2{ screenWidth / 2.f, screenHeight * 0.52f }, buttonWidth, buttonHeight);
+	LoadButton(scene, "Versus", Vector2{ screenWidth / 2.f, screenHeight * 0.4f }, buttonWidth, buttonHeight);
 
 	//GameObject* menuStateSwitcher{ scene.SpawnObject("Menu state") };
 	//menuStateSwitcher->AddComponent<StateComponent>();
 }
 
-GameObject* LoadButton(Scene& scene, const std::string& buttonText, const glm::vec2& pos, float width, float height)
+GameObject* LoadButton(Scene& scene, const std::string& buttonText, const Vector2& pos, float width, float height)
 {
 	GameObject* buttonPtr{ scene.SpawnObject("Button") };
 	buttonPtr->SetLocalPosition(pos);
 	SpriteComponent* bgCompPtr{ buttonPtr->AddComponent<SpriteComponent>("Button.png") };
-	bgCompPtr->SetAnchor(glm::vec2{ 0.5f });
+	bgCompPtr->SetAnchor(Vector2{ 0.5f });
 	bgCompPtr->SetWidth(width);
 	bgCompPtr->SetHeight(height);
 
@@ -67,7 +67,7 @@ GameObject* LoadButton(Scene& scene, const std::string& buttonText, const glm::v
 	buttonTextPtr->SetParent(buttonPtr);
 	TextComponent* textPtr = buttonTextPtr->AddComponent<TextComponent>(buttonText);
 	textPtr->SetColor(Color{ 255,255,255,255 });
-	textPtr->SetAnchor(glm::vec2{ 0.5f });
+	textPtr->SetAnchor(Vector2{ 0.5f });
 	textPtr->SetFont("Lingua.otf", 20);
 
 	return buttonPtr;
@@ -80,7 +80,7 @@ void mk::LoadMainGame(Scene& scene)
 	const int screenWidth{ renderer.GetWidth() };
 
 	GameObject* fps = scene.SpawnObject("fps");
-	fps->SetLocalPosition({ 0, 0.95f * screenHeight });
+	fps->SetLocalPosition(Vector2{ 0.f, 0.95f * screenHeight });
 	auto fpsComponent = fps->AddComponent<FPSComponent>();
 	fpsComponent->SetUpdateDelay(0.5f);
 
@@ -133,7 +133,7 @@ void LoadLevel(Scene& scene)
 	uint8_t* pixels = static_cast<uint8_t*>(surfacePtr->pixels);
 
 
-	std::vector<glm::vec2> playerSpawns{};
+	std::vector<Vector2> playerSpawns{};
 	std::vector<GameObject*> enemies{};
 
 	for (int row{}; row < surfacePtr->h; ++row)
@@ -146,14 +146,14 @@ void LoadLevel(Scene& scene)
 			uint8_t g = pixels[pixelIdx + 1];
 			uint8_t b = pixels[pixelIdx + 2];
 
-			const glm::vec2 pos{ col * TILE_SIZE, row * TILE_SIZE };
+			const Vector2 pos{ col * TILE_SIZE, row * TILE_SIZE };
 
 			if (g == 255)
 				LoadTile(scene, TILE_SIZE, TILE_SIZE, pos);
 			if (r == 255)
 				enemies.emplace_back(LoadEnemy(scene, pos));
 			if (b == 255)
-				playerSpawns.emplace_back(pos + glm::vec2{ TILE_SIZE });
+				playerSpawns.emplace_back(pos + Vector2{ TILE_SIZE });
 		}
 	}
 	SDL_FreeSurface(surfacePtr);

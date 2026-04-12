@@ -1,24 +1,22 @@
 #pragma once
-#include <map>
 #include <vector>
 
 #include "BoxColliderComponent.h"
 #include "ISingleton.h"
-#include "glm/vec2.hpp"
 
 namespace mk
 {
 	struct PhysicsInfo
 	{
-		glm::vec2 position{};
-		glm::vec2 boxExtent{};
-		glm::vec2 prevPos{};
+		Vector2 position{};
+		Vector2 boxExtent{};
+		Vector2 prevPos{};
 	};
 
 	struct BoxBounds
 	{
-		glm::vec2 min{};
-		glm::vec2 max{};
+		Vector2 min{};
+		Vector2 max{};
 	};
 
 	class PhysicsSystem final : public ISingleton<PhysicsSystem>
@@ -54,7 +52,7 @@ namespace mk
 		static bool IsOverlapping(const PhysicsInfo& a, const PhysicsInfo& b);
 		static CollisionInfo SweepCollider(const Collider& a, const Collider& b);
 		static CollisionInfo ResolveCollider(const Collider& a, const Collider& b);
-		static void GetVertices(const glm::vec2& position, const glm::vec2& boxExtent, std::vector<glm::vec2>& vertices);
+		static void GetVertices(const Vector2& position, const Vector2& boxExtent, std::vector<Vector2>& vertices);
 		static BoxBounds GetMinMax(const PhysicsInfo& info);
 
 		std::vector<Collider> m_PhysicsBuffer{};

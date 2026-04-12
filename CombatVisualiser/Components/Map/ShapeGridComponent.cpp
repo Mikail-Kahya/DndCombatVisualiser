@@ -1,12 +1,9 @@
 #include "ShapeGridComponent.h"
 
-#include <iostream>
-
 #include "GameObject.h"
 #include "SceneManager.h"
 #include "ShapeComponent.h"
 #include "ShapeHoverComponent.h"
-#include "ShapeModifierComponent.h"
 #include "Functions/Pathfinding.h"
 
 using namespace mk;
@@ -35,7 +32,7 @@ void ShapeGridComponent::Start()
 		
 		for (int col{}; col < m_Cols; ++col)
 		{
-			const glm::vec2 pos{ col * (templateShapePtr->GetWidth() + m_Gap), y };
+			const Vector2 pos{ col * (templateShapePtr->GetWidth() + m_Gap), y };
 			auto cellPtr{ scene.SpawnObject("Shape") };
 			cellPtr->SetLocalPosition(pos);
 			cellPtr->SetParent(GetOwner());

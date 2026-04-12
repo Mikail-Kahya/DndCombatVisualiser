@@ -1,6 +1,6 @@
 #pragma once
-#include "glm/vec2.hpp"
 #include "Input.h"
+#include "MkMath.h"
 
 namespace mk
 {
@@ -19,9 +19,9 @@ namespace mk
 		// Deadzone is in a range between 0 and 1
 		void SetDeadzone(float deadzone);
 
-		glm::vec2 GetLeftStickInput() const noexcept;
-		glm::vec2 GetRightStickInput() const noexcept;
-		glm::vec2 GetDPadInput() const noexcept;
+		Vector2 GetLeftStickInput() const noexcept;
+		Vector2 GetRightStickInput() const noexcept;
+		Vector2 GetDPadInput() const noexcept;
 
 		bool ButtonDown(Input input) const noexcept;
 		bool ButtonHold(Input input) const noexcept;

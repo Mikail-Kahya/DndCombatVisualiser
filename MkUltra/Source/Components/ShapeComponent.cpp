@@ -13,7 +13,7 @@ ShapeComponent::ShapeComponent()
 {
 }
 
-ShapeComponent::ShapeComponent(const std::vector<Point>& points)
+ShapeComponent::ShapeComponent(const std::vector<Vector2>& points)
 	: m_Points{ points }
 {
 	CalculateBounds();
@@ -24,11 +24,11 @@ void ShapeComponent::Render() const
 	if (m_Points.empty())
 		return;
 
-	const glm::vec2 pos{ GetOwner()->GetWorldPosition() };
-	std::vector<Point> points{ m_Points };
-	std::transform(points.cbegin(), points.cend(), points.begin(), [&pos](const Point& point)
+	const Vector2 pos{ GetOwner()->GetWorldPosition() };
+	std::vector<Vector2> points{ m_Points };
+	std::transform(points.cbegin(), points.cend(), points.begin(), [&pos](const Vector2& point)
 		{
-			return Point{ point.x + pos.x, point.y + pos.y };
+			return Vector2{ point.x + pos.x, point.y + pos.y };
 		});
 
 	if (m_CloseShape)
@@ -43,19 +43,19 @@ void ShapeComponent::Render() const
 	{
 		for (int y{ (int)m_Bounds.first.y }; y < m_Bounds.second.y; ++y)
 		{
-			const glm::vec2 point{ glm::vec2{ x, y} + pos };
+			const Vector2 point{ Vector2{ x, y} + pos };
 			if (IsPointInShape(point))
 				Renderer::GetInstance().RenderPoint(point, m_Color);
 		}
 	}
 }
 
-const std::vector<ShapeComponent::Point>& ShapeComponent::GetPoints() const
+const std::vector<Vector2>& ShapeComponent::GetPoints() const
 {
 	return m_Points;
 }
 
-const std::pair<ShapeComponent::Point, ShapeComponent::Point>& ShapeComponent::GetBounds() const
+const std::pair<Vector2, Vector2>& ShapeComponent::GetBounds() const
 {
 	return m_Bounds;
 }
@@ -85,9 +85,9 @@ bool ShapeComponent::IsClosed() const
 	return m_CloseShape;
 }
 
-bool ShapeComponent::IsPointInShape(const glm::vec2& point) const
+bool ShapeComponent::IsPointInShape(const Vector2& point) const
 {
-	const glm::vec2 worldPos{ GetOwner()->GetWorldPosition() };
+	const Vector2 worldPos{ GetOwner()->GetWorldPosition() };
 	if (point.x < m_Bounds.first.x + worldPos.x || point.x > m_Bounds.second.x + worldPos.x)
 		return false;
 
@@ -95,23 +95,23 @@ bool ShapeComponent::IsPointInShape(const glm::vec2& point) const
 		return false;
 
 	const int32_t nrPoints{ static_cast<int32_t>(m_Points.size()) };
-	const glm::vec2 p2{ point.x + m_Width, point.y };
+	const Vector2 p2{ point.x + m_Width, point.y };
 	int32_t intersectCount{};
 
 	// Use own cross rather than glm::vec3 for performance (looped function)
-	auto cross = [](const glm::vec2& a, const glm::vec2& b) -> float
+	auto cross = [](const Vector2& a, const Vector2& b) -> float
 		{ return a.x * b.y - b.x * a.y; };
 
 	// Loop over every edge (last edge is looped back)
 	for (size_t idx{}; idx < m_Points.size(); ++idx)
 	{
-		const glm::vec2& q1{ m_Points[idx] + worldPos };
-		const glm::vec2& q2{ m_Points[(idx + 1) % nrPoints] + worldPos };
+		const Vector2& q1{ m_Points[idx] + worldPos };
+		const Vector2& q2{ m_Points[(idx + 1) % nrPoints] + worldPos };
 
 		
-		const glm::vec2 r{ p2 - point };
-		const glm::vec2 s{ q2 - q1 };
-		const glm::vec2 pq{ q1 - point };
+		const Vector2 r{ p2 - point };
+		const Vector2 s{ q2 - q1 };
+		const Vector2 pq{ q1 - point };
 
 		const float rsCross{ cross(r, s) };
 \
@@ -131,7 +131,7 @@ bool ShapeComponent::IsPointInShape(const glm::vec2& point) const
 	return intersectCount % 2;
 }
 
-void ShapeComponent::SetPoints(const std::vector<Point>& points)
+void ShapeComponent::SetPoints(const std::vector<Vector2>& points)
 {
 	m_Points = points;
 	CalculateBounds();
@@ -152,7 +152,7 @@ void ShapeComponent::SetCloseShape(bool isClosed)
 	m_CloseShape = isClosed;
 }
 
-void ShapeComponent::AddPoint(const Point& point)
+void ShapeComponent::AddPoint(const Vector2& point)
 {
 	m_Points.emplace_back(point);
 	CalculateBounds();
@@ -165,7 +165,7 @@ void ShapeComponent::CalculateBounds()
 	float maxX{ FLT_MIN };
 	float maxY{ FLT_MIN };
 
-	for (const Point& point : m_Points)
+	for (const Vector2& point : m_Points)
 	{
 		if (point.x < minX)
 			minX = point.x;

@@ -32,16 +32,16 @@ namespace mk
 		bool DestroyFlagged() const;
 
 		const std::string& GetName() const;
-		glm::vec2 GetWorldPosition();
-		glm::vec2 GetLocalPosition() const;
+		Vector2 GetWorldPosition();
+		Vector2 GetLocalPosition() const;
 		float GetWorldDepth();
 		float GetLocalDepth() const;
 		float GetRotation();
-		glm::vec2 GetForward();
+		Vector2 GetForward();
 		bool IsStatic() const;
 
-		void SetLocalPosition(const glm::vec2& position);
-		void AddLocalOffset(const glm::vec2& offset);
+		void SetLocalPosition(const Vector2& position);
+		void AddLocalOffset(const Vector2& offset);
 		void SetLocalDepth(float depth);
 		void AddLocalDepth(float deltaDepth);
 		void SetRotation(float rotation);

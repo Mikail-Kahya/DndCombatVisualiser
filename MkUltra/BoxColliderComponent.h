@@ -1,8 +1,7 @@
 #pragma once
 #include <set>
 
-#include "glm/vec2.hpp"
-
+#include "MkMath.h"
 #include "IComponent.h"
 #include "IObserver.h"
 
@@ -25,11 +24,11 @@ namespace mk
 
 	struct CollisionInfo
 	{
-		//glm::vec2 intersectionPoint{};
-		glm::vec2 impactNormal{};
-		glm::vec2 preCollisionPos{};
-		glm::vec2 postCollisionPos{};
-		glm::vec2 velocity{};
+		//Vector2 intersectionPoint{};
+		Vector2 impactNormal{};
+		Vector2 preCollisionPos{};
+		Vector2 postCollisionPos{};
+		Vector2 velocity{};
 		BoxColliderComponent* hitCompPtr{ nullptr };
 		//float distance{};
 		float entryTime{};
@@ -79,10 +78,10 @@ namespace mk
 		void StopIgnoring(GameObject* colliderPtr, bool mutuallyStopIgnore = true) noexcept;
 
 		CollisionSettings GetCollision() const noexcept;
-		const glm::vec2& GetBoxExtent() const noexcept;
+		const Vector2& GetBoxExtent() const noexcept;
 
 		void SetCollision(CollisionSettings settings) noexcept;
-		void SetExtent(const glm::vec2& extent) noexcept;
+		void SetExtent(const Vector2& extent) noexcept;
 
 	private:
 		void HandleOverlap(const CollisionInfo& info);
@@ -90,6 +89,6 @@ namespace mk
 
 		std::set<GameObject*> m_IgnoreObjects{};
 		CollisionSettings m_CollisionSettings{};
-		glm::vec2 m_Extent{30.f, 30.f};
+		Vector2 m_Extent{30.f, 30.f};
 	};
 }

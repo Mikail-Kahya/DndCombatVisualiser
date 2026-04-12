@@ -12,10 +12,9 @@ namespace mk
 {
 	class ShapeComponent : public IComponent, public IRenderable
 	{
-		using Point = glm::vec2;
 	public:
 		ShapeComponent();
-		ShapeComponent(const std::vector<Point>& points);
+		ShapeComponent(const std::vector<Vector2>& points);
 		~ShapeComponent() override = default;
 
 		ShapeComponent(const ShapeComponent& other) = delete;
@@ -25,28 +24,28 @@ namespace mk
 
 		void Render() const override;
 
-		const std::vector<Point>& GetPoints() const;
-		const std::pair<Point, Point>& GetBounds() const;
+		const std::vector<Vector2>& GetPoints() const;
+		const std::pair<Vector2, Vector2>& GetBounds() const;
 		const Color& GetColor() const;
 		float GetHeight() const;
 		float GetWidth() const;
 		bool IsFilled() const;
 		bool IsClosed() const;
 
-		bool IsPointInShape(const glm::vec2& point) const;
+		bool IsPointInShape(const Vector2& point) const;
 
-		void SetPoints(const std::vector<Point>& points);
+		void SetPoints(const std::vector<Vector2>& points);
 		void SetColor(const Color& color);
 		void SetFill(bool isFilled);
 		void SetCloseShape(bool isClosed);
 
-		void AddPoint(const Point& point);
+		void AddPoint(const Vector2& point);
 
 	private:
 		void CalculateBounds();
 
-		std::vector<Point> m_Points{};
-		std::pair<Point, Point> m_Bounds{};
+		std::vector<Vector2> m_Points{};
+		std::pair<Vector2, Vector2> m_Bounds{};
 		Color m_Color{ 255, 255, 255, 255 };
 		float m_Width{};
 		float m_Height{};

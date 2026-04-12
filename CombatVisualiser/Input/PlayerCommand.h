@@ -1,6 +1,6 @@
 #pragma once
 #include "Command.h"
-#include "glm/vec2.hpp"
+#include "MkMath.h"
 
 namespace mk
 {
@@ -14,7 +14,7 @@ namespace mk
 	class MoveCommand : public GameObjectCommand
 	{
 	public:
-		MoveCommand(GameObject* gameObject, const glm::vec2& direction);
+		MoveCommand(GameObject* gameObject, const Vector2& direction);
 		~MoveCommand() override = default;
 
 		MoveCommand(const MoveCommand& other)					= delete;
@@ -25,7 +25,7 @@ namespace mk
 		void Execute() override;
 
 	private:
-		const glm::vec2 m_Direction{};
+		const Vector2 m_Direction{};
 		MovementComponent* m_MoveCompPtr{};
 	};
 
@@ -36,10 +36,10 @@ namespace mk
 		FireCommand(GameObject* gameObject);
 		~FireCommand() override = default;
 
-		FireCommand(const FireCommand& other) = delete;
-		FireCommand(FireCommand&& other) noexcept = delete;
-		FireCommand& operator=(const FireCommand& other) = delete;
-		FireCommand& operator=(FireCommand&& other) noexcept = delete;
+		FireCommand(const FireCommand& other)					= delete;
+		FireCommand(FireCommand&& other) noexcept				= delete;
+		FireCommand& operator=(const FireCommand& other)		= delete;
+		FireCommand& operator=(FireCommand&& other) noexcept	= delete;
 
 		void Execute() override;
 

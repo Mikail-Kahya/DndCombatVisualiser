@@ -21,5 +21,5 @@ mk::Texture2D::Texture2D(SDL_Texture* texture)
 	m_texture = texture;
 	SDL_Rect dst;
 	SDL_QueryTexture(texture, nullptr, nullptr, &dst.w, &dst.h);
-	m_Size = { static_cast<float>(dst.w),static_cast<float>(dst.h), 0 };
+	m_Size = Vector2{ dst.w, dst.h };
 }

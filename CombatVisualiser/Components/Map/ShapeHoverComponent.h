@@ -1,7 +1,7 @@
 #pragma once
 #include "IComponent.h"
 #include "IObserver.h"
-#include "glm/vec2.hpp"
+#include "MkMath.h"
 
 /*
  *	A helper component that alerts the observers when the mouse hovers over the shape
@@ -15,16 +15,16 @@ namespace mk
 	struct HoverEvent : IEvent
 	{
 		enum class Type : uint8_t { Enter, Exit };
-		HoverEvent(const glm::vec2& _mousePos, ShapeComponent* _shapePtr, Type _type);
+		HoverEvent(const Vector2& _mousePos, ShapeComponent* _shapePtr, Type _type);
 
-		HoverEvent(const HoverEvent& other) = delete;
-		HoverEvent(HoverEvent&& other) noexcept = delete;
-		HoverEvent& operator=(const HoverEvent& other) = delete;
-		HoverEvent& operator=(HoverEvent&& other) noexcept = delete;
+		HoverEvent(const HoverEvent& other)					= delete;
+		HoverEvent(HoverEvent&& other) noexcept				= delete;
+		HoverEvent& operator=(const HoverEvent& other)		= delete;
+		HoverEvent& operator=(HoverEvent&& other) noexcept	= delete;
 
 		void Log() const;
 
-		const glm::vec2 mousePos{};
+		const Vector2 mousePos{};
 		ShapeComponent* const shapePtr{};
 		const Type type{ Type::Enter };
 	};

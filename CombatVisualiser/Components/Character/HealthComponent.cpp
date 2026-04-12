@@ -1,6 +1,7 @@
 #include "HealthComponent.h"
 
 #include <algorithm>
+#include <cassert>
 
 #include "BoxColliderComponent.h"
 #include "GameObject.h"

@@ -7,7 +7,7 @@
 #include "ShapeComponent.h"
 
 
-mk::HoverEvent::HoverEvent(const glm::vec2& _mousePos, ShapeComponent* _shapePtr, Type _type)
+mk::HoverEvent::HoverEvent(const Vector2& _mousePos, ShapeComponent* _shapePtr, Type _type)
 	: mousePos{ _mousePos }
 	, shapePtr{ _shapePtr }
 	, type{ _type }
@@ -16,7 +16,7 @@ mk::HoverEvent::HoverEvent(const glm::vec2& _mousePos, ShapeComponent* _shapePtr
 
 void mk::HoverEvent::Log() const
 {
-	const glm::vec2 shapePos{ shapePtr->GetOwner()->GetWorldPosition() };
+	const Vector2 shapePos{ shapePtr->GetOwner()->GetWorldPosition() };
 	std::cout << "==================================\n"
 		<< "EventInfo:\n"
 		<< "---------\n"
@@ -35,7 +35,7 @@ void mk::ShapeHoverComponent::Start()
 void mk::ShapeHoverComponent::Update()
 {
 	IComponent::Update();
-	const glm::vec2 mousePos{ InputManager::GetInstance().GetMousePosition() };
+	const Vector2 mousePos{ InputManager::GetInstance().GetMousePosition() };
 	const bool isHovering{ m_ShapeCompPtr->IsPointInShape(mousePos) };
 	if (isHovering == m_IsHovering)
 		return;

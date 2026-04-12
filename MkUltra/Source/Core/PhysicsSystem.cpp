@@ -4,10 +4,9 @@
 
 #include "BoxColliderComponent.h"
 #include "GameObject.h"
-#include "Geometry.h"
+#include "MkMath.h"
 #include "Renderer.h"
 #include "SceneManager.h"
-#include "glm/gtx/intersect.hpp"
 
 using namespace mk;
 
@@ -100,7 +99,7 @@ void PhysicsSystem::UpdateInformation()
 {
 	for (Collider& collider : m_PhysicsBuffer)
 	{
-		const glm::vec2 prevPos{ collider.second.prevPos };
+		const Vector2 prevPos{ collider.second.prevPos };
 		collider.second = GetPhysicsInfo(collider.first);
 		collider.second.prevPos = prevPos;
 	}
@@ -122,8 +121,8 @@ PhysicsInfo PhysicsSystem::GetPhysicsInfo(const BoxColliderComponent* colliderPt
 
 bool PhysicsSystem::IsOverlapping(const PhysicsInfo& a, const PhysicsInfo& b)
 {
-	const auto box{ Geometry::GetBoxMinMax(a.position, a.boxExtent) };
-	const auto otherBox{ Geometry::GetBoxMinMax(b.position, b.boxExtent) };
+	const auto box{ GetBoxMinMax(a.position, a.boxExtent) };
+	const auto otherBox{ GetBoxMinMax(b.position, b.boxExtent) };
 
 	if (box.topRight.x < otherBox.bottomLeft.x ||	// left check
 		otherBox.topRight.x < box.bottomLeft.x ||	// right check
@@ -135,7 +134,7 @@ bool PhysicsSystem::IsOverlapping(const PhysicsInfo& a, const PhysicsInfo& b)
 
 CollisionInfo PhysicsSystem::SweepCollider(const Collider& a, const Collider& b)
 {
-	const glm::vec2 displacement{ a.second.position - a.second.prevPos };
+	const Vector2 displacement{ a.second.position - a.second.prevPos };
 
 	CollisionInfo result{};
 	//result.distance = FLT_MAX;
@@ -147,8 +146,8 @@ CollisionInfo PhysicsSystem::SweepCollider(const Collider& a, const Collider& b)
 	// https://www.gamedev.net/tutorials/programming/general-and-gameplay-programming/swept-aabb-collision-detection-and-response-r3084/
 
 	// find the distance between the objects on the near and far sides
-	glm::vec2 invEntry{};
-	glm::vec2 invExit{};
+	Vector2 invEntry{};
+	Vector2 invExit{};
 	
 	const auto minMax{ GetMinMax(a.second) };
 	const auto otherMinMax{ GetMinMax(b.second) };
@@ -177,8 +176,8 @@ CollisionInfo PhysicsSystem::SweepCollider(const Collider& a, const Collider& b)
 	
 	
 	// find time of collision and time of leaving for each axis (if statement is to prevent divide by zero)
-	glm::vec2 entry{ -std::numeric_limits<float>::infinity() };
-	glm::vec2 exit{ std::numeric_limits<float>::infinity() };
+	Vector2 entry{ -std::numeric_limits<float>::infinity() };
+	Vector2 exit{ std::numeric_limits<float>::infinity() };
 	
 	
 	if (result.velocity.x != 0.0f)
@@ -195,9 +194,9 @@ CollisionInfo PhysicsSystem::SweepCollider(const Collider& a, const Collider& b)
 	
 	// calculate normal of collided surface
 	if (entry.x > entry.y)
-		result.impactNormal = (invEntry.x < 0.0f) ? glm::vec2{ 1, 0 } : glm::vec2{ -1, 0 };
+		result.impactNormal = (invEntry.x < 0.0f) ? Vector2{ 1, 0 } : Vector2{ -1, 0 };
 	else
-		result.impactNormal = (invEntry.y < 0.0f) ? glm::vec2{ 0, 1 } : glm::vec2{ 0, -1 };
+		result.impactNormal = (invEntry.y < 0.0f) ? Vector2{ 0, 1 } : Vector2{ 0, -1 };
 
 	// find the earliest/latest times of collisionfloat 
 	const float entryTime = std::max(entry.x, entry.y);
@@ -216,34 +215,33 @@ CollisionInfo PhysicsSystem::ResolveCollider(const Collider& a, const Collider& 
 	result.velocity = {};
 
 	// Math help https://imois.in/posts/line-intersections-with-cross-products/
-	std::vector<glm::vec2> vertices{};
+	std::vector<Vector2> vertices{};
 	GetVertices(b.second.position, b.second.boxExtent, vertices);
-
-	glm::vec2 finalIntersection{};
-	const glm::vec2 ray{ b.second.position - a.second.position };
+	Vector2 finalIntersection{};
+	const Vector2 ray{ b.second.position - a.second.position };
 	const glm::vec3 pos{ a.second.position, 1 };
 	const glm::vec3 end{ b.second.position, 1 };
 	constexpr int nrVertices{ 4 };
 	for (int idx{}; idx < nrVertices; ++idx)
 	{
-		const glm::vec2& p1{ vertices[idx] };
-		const glm::vec2& p2{ vertices[(idx + 1) % nrVertices] };
-		const glm::vec2 edge{ p2 - p1 };
+		const Vector2& p1{ vertices[idx] };
+		const Vector2& p2{ vertices[(idx + 1) % nrVertices] };
+		const Vector2 edge{ p2 - p1 };
 	
 		// place lines in projection space
 		const glm::vec3 line1{ glm::cross(glm::vec3{p1, 1}, glm::vec3{p2,1}) };
 		const glm::vec3 line2{ glm::cross(pos, end) };
 		const glm::vec3 solution{ glm::cross(line1, line2) };
-		const glm::vec2 intersection{ solution.x / solution.z, solution.y / solution.z };
+		const Vector2 intersection{ solution.x / solution.z, solution.y / solution.z };
 		if (solution.z < FLT_EPSILON)
 			continue;
 	
 		// check if point isn't to out of vertices on the line
-		const glm::vec2 intersectToP1{ p1 - intersection };
+		const Vector2 intersectToP1{ p1 - intersection };
 		if (glm::cross(glm::vec3{ ray, 0 }, glm::vec3{ intersectToP1, 0 }).z < 0) // < 0 is to the left of P1
 			continue;
 	
-		const glm::vec2 intersectToP2{ p2 - intersection };
+		const Vector2 intersectToP2{ p2 - intersection };
 		if (glm::cross(glm::vec3{ ray, 0 }, glm::vec3{ intersectToP2, 0 }).z > 0) // > 0 is to the right of P2
 			continue;
 	
@@ -254,15 +252,15 @@ CollisionInfo PhysicsSystem::ResolveCollider(const Collider& a, const Collider& 
 	return result;
 }
 
-void PhysicsSystem::GetVertices(const glm::vec2& position, const glm::vec2& boxExtent, std::vector<glm::vec2>& vertices)
+void PhysicsSystem::GetVertices(const Vector2& position, const Vector2& boxExtent, std::vector<Vector2>& vertices)
 {
 	constexpr int nrVertices{ 4 };
 	vertices.clear();
 	vertices.resize(nrVertices);
 	vertices[0] = position + boxExtent;
-	vertices[1] = position - glm::vec2{ boxExtent.x, -boxExtent.y };
+	vertices[1] = position - Vector2{ boxExtent.x, -boxExtent.y };
 	vertices[2] = position - boxExtent;
-	vertices[3] = position - glm::vec2{ -boxExtent.x, boxExtent.y };
+	vertices[3] = position - Vector2{ -boxExtent.x, boxExtent.y };
 }
 
 BoxBounds PhysicsSystem::GetMinMax(const PhysicsInfo& info)

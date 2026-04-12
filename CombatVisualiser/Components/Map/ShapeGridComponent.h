@@ -1,9 +1,9 @@
 #pragma once
 #include <cstdint>
-#include <vector>
 
 #include "IComponent.h"
 #include "IObserver.h"
+#include "MkMath.h"
 #include "Functions/Pathfinding.h"
 
 /*
@@ -18,7 +18,7 @@ namespace mk
 
 	struct GridNode final : algo::Node
 	{
-		GridNode(const glm::vec2& _position, ShapeComponent* _shapePtr) : position{ _position }, shapePtr{ _shapePtr } {}
+		GridNode(const Vector2& _position, ShapeComponent* _shapePtr) : position{ _position }, shapePtr{ _shapePtr } {}
 
 		GridNode(const GridNode& other) = delete;
 		GridNode(GridNode&& other) noexcept = delete;
@@ -29,7 +29,7 @@ namespace mk
 		float GetX() const override { return  position.x; }
 		float GetY() const override { return  position.y; }
 
-		const glm::vec2 position{};
+		const Vector2 position{};
 		ShapeComponent* shapePtr{};
 	};
 

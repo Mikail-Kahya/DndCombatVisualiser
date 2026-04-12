@@ -26,14 +26,14 @@ public:
 	// Deadzone is in a range between 0 and 1
 	void SetDeadzone(float deadzone);
 
-	glm::vec2 GetLeftStickInput() const noexcept;
-	glm::vec2 GetRightStickInput() const noexcept;
+	Vector2 GetLeftStickInput() const noexcept;
+	Vector2 GetRightStickInput() const noexcept;
 	bool ButtonDown(Input input) const noexcept;
 	bool ButtonHold(Input input) const noexcept;
 	bool ButtonUp(Input input) const noexcept;
 
 private:
-	glm::vec2 GetStickInput(SHORT xInput, SHORT yInput) const noexcept;
+	Vector2 GetStickInput(SHORT xInput, SHORT yInput) const noexcept;
 
 	bool XHandleInput(const std::function<bool(int)>& func, Input input) const noexcept;
 	bool XButtonDown(int input) const noexcept;
@@ -73,12 +73,12 @@ void ControllerInput::XControllerInput::SetDeadzone(float deadzone)
 	m_Deadzone = deadzone * MAX_STICK_INPUT;
 }
 
-glm::vec2 ControllerInput::XControllerInput::GetLeftStickInput() const noexcept
+Vector2 ControllerInput::XControllerInput::GetLeftStickInput() const noexcept
 {
 	return GetStickInput(m_CurrentState.Gamepad.sThumbLX, m_CurrentState.Gamepad.sThumbLY);
 }
 
-glm::vec2 ControllerInput::XControllerInput::GetRightStickInput() const noexcept
+Vector2 ControllerInput::XControllerInput::GetRightStickInput() const noexcept
 {
 	return GetStickInput(m_CurrentState.Gamepad.sThumbRX, m_CurrentState.Gamepad.sThumbRY);
 }
@@ -107,7 +107,7 @@ bool ControllerInput::XControllerInput::ButtonUp(Input input) const noexcept
 		}, input);
 }
 
-glm::vec2 ControllerInput::XControllerInput::GetStickInput(SHORT xInput, SHORT yInput) const noexcept
+Vector2 ControllerInput::XControllerInput::GetStickInput(SHORT xInput, SHORT yInput) const noexcept
 {
 	float x{ static_cast<float>(xInput) };
 	if (abs(x) < m_Deadzone)
@@ -199,19 +199,19 @@ void ControllerInput::SetDeadzone(float deadzone)
 	m_XInputImpl->SetDeadzone(deadzone);
 }
 
-glm::vec2 ControllerInput::GetLeftStickInput() const noexcept
+Vector2 ControllerInput::GetLeftStickInput() const noexcept
 {
 	return m_XInputImpl->GetLeftStickInput();
 }
 
-glm::vec2 ControllerInput::GetRightStickInput() const noexcept
+Vector2 ControllerInput::GetRightStickInput() const noexcept
 {
 	return m_XInputImpl->GetRightStickInput();
 }
 
-glm::vec2 ControllerInput::GetDPadInput() const noexcept
+Vector2 ControllerInput::GetDPadInput() const noexcept
 {
-	glm::vec2 input{};
+	Vector2 input{};
 	if (ButtonHold(Input::dPadLeft))
 		--input.x;
 

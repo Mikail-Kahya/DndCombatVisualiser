@@ -65,7 +65,7 @@ void TextComponent::SetColor(const Color& color)
 	m_Color = color;
 }
 
-void TextComponent::SetAnchor(const glm::vec2& anchor) const
+void TextComponent::SetAnchor(const Vector2& anchor) const
 {
 	m_RendererPtr->SetAnchor(anchor);
 }

@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "GameObject.h"
-#include "Geometry.h"
+#include "MkMath.h"
 #include "PhysicsSystem.h"
 
 using namespace mk;
@@ -68,7 +68,7 @@ CollisionSettings BoxColliderComponent::GetCollision() const noexcept
 	return m_CollisionSettings;
 }
 
-const glm::vec2& BoxColliderComponent::GetBoxExtent() const noexcept
+const Vector2& BoxColliderComponent::GetBoxExtent() const noexcept
 {
 	return m_Extent;
 }
@@ -89,7 +89,7 @@ void BoxColliderComponent::SetCollision(CollisionSettings settings) noexcept
 	m_CollisionSettings = settings;
 }
 
-void BoxColliderComponent::SetExtent(const glm::vec2& extent) noexcept
+void BoxColliderComponent::SetExtent(const Vector2& extent) noexcept
 {
 	m_Extent = extent;
 }
@@ -104,15 +104,15 @@ void BoxColliderComponent::HandleOverlap(const CollisionInfo& info)
 void BoxColliderComponent::HandleBlock(const CollisionInfo& info)
 {
 	// push 
-	float magnitude = glm::length(info.velocity) * info.remainingTime;
-	float dot = glm::dot(info.velocity, info.impactNormal);
+	float magnitude = info.velocity.Length() * info.remainingTime;
+	float dot = Vector2::Dot(info.velocity, info.impactNormal);
 
 	if (dot > 0.0f) 
 		dot = 1.0f;
 	else if (dot < 0.0f) 
 		dot = -1.0f;
 
-	glm::vec2 velocity{ dot * info.impactNormal * magnitude };
+	Vector2 velocity{ dot * info.impactNormal * magnitude };
 
 	GetOwner()->SetLocalPosition(info.preCollisionPos + velocity * info.entryTime);
 

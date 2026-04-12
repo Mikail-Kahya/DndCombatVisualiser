@@ -1,10 +1,45 @@
-#include <cmath>
-#include "Math.h"
+#include "MkMath.h"
 
+#include <cmath>
 #include <algorithm>
 #include <cassert>
 
 using namespace mk;
+
+Vector2::Vector2()
+	: x{ 0.f }
+	, y{ 0.f }
+{}
+
+Vector2::Vector2(float _x, float _y)
+	: x{ _x }
+	, y{ _y }
+{}
+
+Vector2::Vector2(float v)
+	: x{ v }
+	, y{ v }
+{}
+
+Vector2::Vector2(int x, int y)
+	: x{ static_cast<float>(x) }
+	, y{ static_cast<float>(y) }
+{}
+
+Vector2::Vector2(int v)
+	: x{ static_cast<float>(v) }
+	, y{ static_cast<float>(v) }
+{}
+
+Vector2::Vector2(float _x, int _y)
+	: x{ _x }
+	, y{ static_cast<float>(_y) }
+{}
+
+Vector2::Vector2(int _x, float _y)
+	: x{ static_cast<float>(_x) }
+	, y{ _y }
+{}
 
 float Vector2::AngleBetween(const Vector2& a, const Vector2& b)
 {
@@ -13,7 +48,7 @@ float Vector2::AngleBetween(const Vector2& a, const Vector2& b)
 		return 0.f;
 
 	const float dotAngle{ std::clamp(Dot(a, b) / denom, -1.f, 1.f) };
-	return std::acosf(dotAngle);
+	return std::acos(dotAngle);
 }
 
 float Vector2::Dot(const Vector2& a, const Vector2& b)
@@ -75,7 +110,7 @@ Vector2 Vector2::Lerp(const Vector2& a, const Vector2& b, float t)
 
 float Vector2::Length() const
 {
-	return std::sqrtf(x * x + y * y);
+	return std::sqrt(x * x + y * y);
 }
 
 float Vector2::LengthSqr() const
@@ -212,4 +247,20 @@ bool Vector2::operator==(const Vector2& other) const
 {
 	return std::abs(x - other.x) < EPSILON
 		&& std::abs(y - other.y) < EPSILON;
+}
+
+bool mk::PointInBox(const Vector2& point, const Vector2& location, const Vector2& boxExtent)
+{
+	const Vector2 min{ location - boxExtent };
+	const Vector2 max{ location + boxExtent };
+
+	if (min.x > point.x || point.x > max.x)
+		return false;
+
+	return min.y < point.y && point.y < max.y;
+}
+
+Box mk::GetBoxMinMax(const Vector2& location, const Vector2& boxExtent)
+{
+	return { location - boxExtent, location + boxExtent };
 }

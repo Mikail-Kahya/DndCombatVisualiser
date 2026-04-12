@@ -18,7 +18,7 @@ endif()
 add_library(${ENGINE_NAME} STATIC
   "Source/Core/GameObject.cpp"
   "Source/Core/Transform.cpp"
-  "Source/Core/Math.cpp"
+  "Source/Core/MkMath.cpp"
 
   "Source/Input/InputManager.cpp"
   "Source/Core/MkUltra.cpp"
@@ -53,7 +53,7 @@ add_library(${ENGINE_NAME} STATIC
   "Source/Input/Action.cpp"
   
   "Source/Core/IObserver.cpp"
-  "Source/Core/Geometry.cpp"
+  
   
   "IState.h"
   "GameObjectState.h"

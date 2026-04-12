@@ -10,6 +10,19 @@ namespace mk {
 	
 	struct Vector2
 	{
+		Vector2();
+		Vector2(float x, float y);
+		Vector2(float v);
+		Vector2(int x, int y);
+		Vector2(int v);
+		Vector2(float x, int y);
+		Vector2(int x, float y);
+
+		Vector2(const Vector2& other)					= default;
+		Vector2(Vector2&& other) noexcept				= default;
+		Vector2& operator=(const Vector2& other)		= default;
+		Vector2& operator=(Vector2&& other) noexcept	= default;
+
 		static float AngleBetween(const Vector2& a, const Vector2& b); // Returns the angle in radians
 		static float Dot(const Vector2& a, const Vector2& b);
 		static float Determinant(const Vector2& a, const Vector2& b);
@@ -53,4 +66,13 @@ namespace mk {
 		float x{};
 		float y{};
 	};
+
+	struct Box
+	{
+		Vector2 bottomLeft{};
+		Vector2 topRight{};
+	};
+
+	bool PointInBox(const Vector2& point, const Vector2& location, const Vector2& boxExtent);
+	Box GetBoxMinMax(const Vector2& location, const Vector2& boxExtent);
 };

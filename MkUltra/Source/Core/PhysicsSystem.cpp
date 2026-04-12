@@ -217,6 +217,7 @@ CollisionInfo PhysicsSystem::ResolveCollider(const Collider& a, const Collider& 
 	// Math help https://imois.in/posts/line-intersections-with-cross-products/
 	std::vector<Vector2> vertices{};
 	GetVertices(b.second.position, b.second.boxExtent, vertices);
+	/* TODO revamp to work with new Vectors
 	Vector2 finalIntersection{};
 	const Vector2 ray{ b.second.position - a.second.position };
 	const glm::vec3 pos{ a.second.position, 1 };
@@ -248,6 +249,7 @@ CollisionInfo PhysicsSystem::ResolveCollider(const Collider& a, const Collider& 
 		finalIntersection = intersection;
 		result.impactNormal = glm::normalize(glm::cross(glm::vec3{ edge, 0 }, glm::vec3{ 0, 0, 1 }));
 	}
+	*/
 	
 	return result;
 }
